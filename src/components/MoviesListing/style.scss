@@ -1,16 +1,21 @@
-section {
-  justify-content: flex-start;
+#movie-list-section {
+  justify-content: end;
+  max-width: 50%;
+  transition: all 0.3s ease;
 }
-h3 {
-  margin: 40px 0 0;
+h2 {
+  margin: 0;
 }
 ul {
   list-style-type: none;
-  padding: 0;
+  padding: 10px;
 }
-li {
-  margin: 0 10px;
+//Not working
+.displace-enter-active,
+.displace-leave-active {
+  transition: opacity 5s;
 }
-a {
-  color: #42b983;
+.displace-enter,
+.displace-leave {
+  opacity: 0;
 }

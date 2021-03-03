@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <img alt="MoVue logo" id="logo" src="../../assets/movue-transparent.png" />
-    <div class="even-space">
+    <h1 class="title">MoVue</h1>
+    <div class="content">
       <MoviesListing v-on:show-details="showMovieDetails($event)" />
       <MoviesDetails :movie="movie" />
     </div>

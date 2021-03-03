@@ -1,9 +1,21 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
-    </div>
+    <header>
+      <div id="nav">
+        <div id="nav-title">
+          <router-link to="/">MoVue</router-link>
+          <img
+            alt="MoVue logo"
+            id="logo"
+            src="../../assets/movue-transparent.png"
+          />
+        </div>
+        <div id="nav-links">
+          <router-link to="/">Home</router-link>
+          <router-link to="/about">About</router-link>
+        </div>
+      </div>
+    </header>
     <router-view />
   </div>
 </template>

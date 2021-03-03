@@ -1,7 +1,7 @@
 <template>
-  <li v-on:click="selectMovie">{{ movie.title }}</li>
+  <li class="movie-item" v-on:click="selectMovie">{{ movie.title }}</li>
 </template>
-
+<style src="./style.scss" scoped lang="scss"></style>
 <script>
 export default {
   name: "MovieItem",

@@ -1,9 +1,5 @@
-#logo {
-  height: 200px;
-  width: auto;
-}
-
-.even-space {
+.content {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  padding: 50px;
 }
