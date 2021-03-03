@@ -1,21 +1,18 @@
 <template>
-  <li v-on:click="selectMovie">{{ title }}</li>
+  <li v-on:click="selectMovie">{{ movie.title }}</li>
 </template>
 
 <script>
 export default {
   name: "MovieItem",
   props: {
-    title: {
-      type: String,
-    },
-    id: {
-      type: String,
+    movie: {
+      type: Object,
     },
   },
   methods: {
     selectMovie() {
-      this.$emit("selectMovie", this.id);
+      this.$emit("select-movie", this.movie);
     },
   },
 };

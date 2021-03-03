@@ -1,13 +1,12 @@
 <template>
   <section id="movie-list-section">
-    <h3>List of movies</h3>
+    <h2>List of movies</h2>
     <ul id="movie-list">
       <MovieItem
         v-for="movie in movies"
         :key="movie.id"
-        :title="movie.title"
-        :id="movie.id"
-        v-on:selectMovie="showDetails($event)"
+        :movie="movie"
+        v-on:select-movie="showDetails($event)"
       >
       </MovieItem>
     </ul>
@@ -26,15 +25,12 @@ export default {
   components: { MovieItem },
   data() {
     return {
-      movies: this.listMovies(),
+      movies: searchResults.items,
     };
   },
   methods: {
-    listMovies() {
-      return searchResults.items.map((movie) => movie);
-    },
-    showDetails(id) {
-      this.$emit("showDetails", id);
+    showDetails(movie) {
+      this.$emit("show-details", movie);
     },
   },
 };

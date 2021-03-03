@@ -2,8 +2,8 @@
   <div class="home">
     <img alt="MoVue logo" id="logo" src="../../assets/movue-transparent.png" />
     <div class="even-space">
-      <MoviesListing v-on:showDetails="showMovieDetails($event)" />
-      <MoviesDetails :movieId="movieId" />
+      <MoviesListing v-on:show-details="showMovieDetails($event)" />
+      <MoviesDetails :movie="movie" />
     </div>
   </div>
 </template>
@@ -23,12 +23,12 @@ export default {
   },
   data() {
     return {
-      movieId: "",
+      movie: {},
     };
   },
   methods: {
-    showMovieDetails(id) {
-      this.movieId = id;
+    showMovieDetails(movie) {
+      this.movie = movie;
     },
   },
 };
