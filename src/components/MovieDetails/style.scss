@@ -1,6 +1,10 @@
 h3 {
   margin: 40px 0 0;
 }
+h2 {
+  margin: 0;
+  padding: 0;
+}
 
 a {
   color: #42b983;
@@ -8,10 +12,18 @@ a {
 
 #movie-details {
   max-width: 30%;
-  margin: 5px;
+  margin: 0;
   img {
-    max-width: 40%;
+    max-width: 50%;
     height: auto;
+    border-radius: 40px;
+  }
+  section {
+    padding: 10px;
+    align-items: center;
+    * {
+      margin: 15px;
+    }
   }
 }
 .fade-enter-active,
