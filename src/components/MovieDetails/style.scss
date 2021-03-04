@@ -1,0 +1,35 @@
+h3 {
+  margin: 40px 0 0;
+}
+h2 {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #42b983;
+}
+
+#movie-details {
+  max-width: 30%;
+  margin: 0;
+  img {
+    max-width: 50%;
+    height: auto;
+    border-radius: 40px;
+  }
+  section {
+    padding: 10px;
+    align-items: center;
+    * {
+      margin: 15px;
+    }
+  }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
