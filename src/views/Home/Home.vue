@@ -3,7 +3,7 @@
     <h1 class="title">MoVue</h1>
     <div class="content">
       <MoviesListing v-on:show-details="showMovieDetails($event)" />
-      <MoviesDetails :movie="movie" />
+      <MoviesDetails :movie-info="movieInfo" />
     </div>
   </div>
 </template>
@@ -11,7 +11,6 @@
 <style src="./style.scss" lang="scss"></style>
 
 <script>
-// @ is an alias to /src
 import MoviesListing from "@/components/MoviesListing/MoviesListing.vue";
 import MoviesDetails from "@/components/MovieDetails/MoviesDetails";
 
@@ -23,12 +22,12 @@ export default {
   },
   data() {
     return {
-      movie: {},
+      movieInfo: {},
     };
   },
   methods: {
-    showMovieDetails(movie) {
-      this.movie = movie;
+    showMovieDetails(movieInfo) {
+      this.movieInfo = movieInfo;
     },
   },
 };
