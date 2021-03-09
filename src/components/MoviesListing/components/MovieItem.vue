@@ -1,7 +1,7 @@
 <template>
   <li class="movie-item" v-on:click="selectMovie">{{ movie.Title }}</li>
 </template>
-<style src="./style.scss" scoped lang="scss"></style>
+
 <script>
 export default {
   name: "MovieItem",
@@ -20,3 +20,5 @@ export default {
   },
 };
 </script>
+
+<style src="./style.scss" scoped lang="scss"></style>

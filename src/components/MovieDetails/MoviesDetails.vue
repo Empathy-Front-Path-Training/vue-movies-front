@@ -1,21 +1,20 @@
 <template>
-  <transition name="fade">
-    <section v-show="movieInfo.id !== undefined" id="movie-details">
+  <transition name="fade-panel">
+    <section v-show="movieInfo.id !== ''" id="movie-details-panel">
       <h2>Details of the movie</h2>
-      <section>
-        <img alt="mock image for the poster" :src="movieInfo.image" />
-        <h2>{{ movie.title }}</h2>
-        <h3>Rating: {{ movie.averageRating }}</h3>
-        <h3>Year of release: {{ movie.startYear }}</h3>
-        <h4>Type: {{ movie.type }}</h4>
-        <h4>Genres: {{ listGenres() }}</h4>
-      </section>
+      <transition name="fade-details">
+        <section v-show="showPanel" id="movie-details">
+          <img alt="mock image for the poster" :src="movieInfo.image" />
+          <h2>{{ movie.title }}</h2>
+          <h3>Rating: {{ movie.averageRating }}</h3>
+          <h3>Year of release: {{ movie.startYear }}</h3>
+          <h4>Type: {{ movie.type }}</h4>
+          <h4>Genres: {{ listGenres() }}</h4>
+        </section>
+      </transition>
     </section>
   </transition>
 </template>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style src="./style.scss" scoped lang="scss"></style>
 
 <script>
 export default {
@@ -28,6 +27,7 @@ export default {
   data() {
     return {
       movie: {},
+      showPanel: false,
     };
   },
   methods: {
@@ -40,16 +40,22 @@ export default {
     },
     showSelectedMovie(selectedMovieId) {
       if (selectedMovieId !== "") {
-        this.fetchSelectedMovie(selectedMovieId).then(
-          (movie) => (this.movie = movie)
-        );
+        this.fetchSelectedMovie(selectedMovieId).then((movie) => {
+          this.movie = movie;
+        });
       }
     },
     async fetchSelectedMovie(selectedMovieId) {
-      let response = await fetch(
-        "http://localhost:3000/movies/" + selectedMovieId
-      );
-      return await response.json();
+      try {
+        let response = await fetch(
+          "http://localhost:3000/movies/" + selectedMovieId
+        );
+        return await response.json();
+      } catch (e) {
+        alert(
+          "There has been an error and the movie could not be fetched, please try again later."
+        );
+      }
     },
   },
   watch: {
@@ -59,3 +65,6 @@ export default {
   },
 };
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style src="./style.scss" scoped lang="scss"></style>

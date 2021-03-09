@@ -14,9 +14,6 @@
   </section>
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style src="./style.scss" scoped lang="scss"></style>
-
 <script>
 import { movies } from "@/mocks/movies";
 import MovieItem from "@/components/MoviesListing/components/MovieItem";
@@ -36,3 +33,6 @@ export default {
   },
 };
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style src="./style.scss" scoped lang="scss"></style>

@@ -8,8 +8,6 @@
   </div>
 </template>
 
-<style src="./style.scss" lang="scss"></style>
-
 <script>
 import MoviesListing from "@/components/MoviesListing/MoviesListing.vue";
 import MoviesDetails from "@/components/MovieDetails/MoviesDetails";
@@ -32,3 +30,5 @@ export default {
   },
 };
 </script>
+
+<style src="./style.scss" lang="scss"></style>

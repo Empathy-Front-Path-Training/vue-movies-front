@@ -10,7 +10,7 @@ a {
   color: #42b983;
 }
 
-#movie-details {
+#movie-details-panel {
   max-width: 30%;
   margin: 0;
   img {
@@ -26,10 +26,15 @@ a {
     }
   }
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
+.fade-details-enter-active,
+.fade-details-leave-active,
+.fade-panel-enter-active,
+.fade-panel-leave-active {
+  transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to {
+.fade-details-enter,
+.fade-details-leave-to,
+.fade-panel-enter,
+.fade-panel-leave-to {
   opacity: 0;
 }
