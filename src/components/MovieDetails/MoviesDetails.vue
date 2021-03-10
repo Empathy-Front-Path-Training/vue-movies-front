@@ -1,15 +1,19 @@
 <template>
-  <transition name="fade-panel">
-    <section v-show="movieInfo.id !== ''" id="movie-details-panel">
-      <h2>Details of the movie</h2>
-      <transition name="fade-details">
-        <section v-show="showPanel" id="movie-details">
-          <img alt="mock image for the poster" :src="movieInfo.image" />
-          <h2>{{ movie.title }}</h2>
+  <transition name="fade">
+    <section v-show="movieInfo.id !== undefined" id="movie-details-panel">
+      <h2>Details of the movie:</h2>
+      <img alt="mock image for the poster" :src="movieInfo.image" />
+      <transition name="fade">
+        <section v-show="movieInfo.id !== undefined" :key="movieInfo.id">
+          <h2 class="movie-title">{{ movie.title }}</h2>
           <h3>Rating: {{ movie.averageRating }}</h3>
           <h3>Year of release: {{ movie.startYear }}</h3>
           <h4>Type: {{ movie.type }}</h4>
-          <h4>Genres: {{ listGenres() }}</h4>
+          <section class="tag-section">
+            <p v-for="genre in movie.genres" :key="genre" class="tag">
+              {{ genre }}
+            </p>
+          </section>
         </section>
       </transition>
     </section>
@@ -27,17 +31,9 @@ export default {
   data() {
     return {
       movie: {},
-      showPanel: false,
     };
   },
   methods: {
-    listGenres() {
-      let genres = "";
-      if (this.movie.id !== undefined) {
-        genres = this.movie.genres.reduce((gen, genre) => gen + ", " + genre);
-      }
-      return genres;
-    },
     showSelectedMovie(selectedMovieId) {
       if (selectedMovieId !== "") {
         this.fetchSelectedMovie(selectedMovieId).then((movie) => {
@@ -59,8 +55,8 @@ export default {
     },
   },
   watch: {
-    movieInfo(selectedMovieInfo) {
-      this.showSelectedMovie(selectedMovieInfo.id);
+    movieInfo(newSelectedMovieInfo) {
+      this.showSelectedMovie(newSelectedMovieInfo.id);
     },
   },
 };

@@ -11,30 +11,38 @@ a {
 }
 
 #movie-details-panel {
-  max-width: 30%;
+  width: 30%;
   margin: 0;
   img {
-    max-width: 50%;
+    width: 50%;
     height: auto;
     border-radius: 40px;
-  }
-  section {
+    margin: 10px;
     padding: 10px;
-    align-items: center;
-    * {
-      margin: 15px;
+  }
+  .movie-title {
+    font-weight: bolder;
+    color: #faf181;
+  }
+  .tag-section {
+    display: flex;
+    justify-content: center;
+
+    .tag {
+      background: #283f68;
+      margin: 3px;
+      padding: 5px;
+      border-radius: 10px;
     }
   }
 }
-.fade-details-enter-active,
-.fade-details-leave-active,
-.fade-panel-enter-active,
-.fade-panel-leave-active {
-  transition: opacity 0.5s;
+.fade-enter-active {
+  transition: opacity 2s;
 }
-.fade-details-enter,
-.fade-details-leave-to,
-.fade-panel-enter,
-.fade-panel-leave-to {
+.fade-leave-active {
+  transition: opacity 2s;
+}
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
