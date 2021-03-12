@@ -12,21 +12,33 @@ a {
 
 #movie-details-panel {
   width: 30%;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+
+  #details-title {
+  }
+
   img {
-    width: 50%;
+    width: 40%;
     height: auto;
     border-radius: 40px;
     margin: 10px;
     padding: 10px;
   }
+
   .movie-title {
+    margin-top: auto;
     font-weight: bolder;
     color: #faf181;
   }
   .tag-section {
     display: flex;
     justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-left: 20%;
+    padding-right: 20%;
 
     .tag {
       background: #283f68;
