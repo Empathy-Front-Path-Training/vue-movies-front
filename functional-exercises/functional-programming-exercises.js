@@ -392,7 +392,7 @@ function getInfectedPeopleFromCountriesWhosePopulationHasNLeggedPets(
         (person) => person.country === country.code
       )
     )
-    .reduce((totalInfected, country) => (totalInfected += country.infected), 0);
+    .reduce((totalInfected, country) => totalInfected + country.infected, 0);
 
   console.log(
     "The total number of infected people from countries whose population own a pet with " +
