@@ -5,10 +5,14 @@
       <transition name="fade">
         <section v-show="movieInfo.id !== undefined" :key="movieInfo.id">
           <img :src="moviePoster" alt="mock image for the poster" />
-          <h2 class="movie-title">{{ movie.title }}</h2>
-          <h3>Rating: {{ movie.averageRating }}</h3>
-          <h3>Year of release: {{ movie.startYear }}</h3>
-          <h4>Type: {{ movie.type }}</h4>
+          <h2 class="movie-title" data-test="details-title">
+            {{ movie.title }}
+          </h2>
+          <h3 data-test="details-rating">Rating: {{ movie.averageRating }}</h3>
+          <h3 data-test="details-year">
+            Year of release: {{ movie.startYear }}
+          </h3>
+          <h4 data-test="details-type">Type: {{ movie.type }}</h4>
           <section class="tag-section">
             <p v-for="genre in movie.genres" :key="genre" class="tag">
               {{ genre }}
