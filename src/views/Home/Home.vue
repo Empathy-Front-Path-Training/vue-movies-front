@@ -1,33 +1,18 @@
 <template>
-  <div class="home">
+  <section class="home">
     <h1 class="title">MoVue</h1>
-    <div class="content">
-      <MoviesListing v-on:show-details="showMovieDetails($event)" />
-      <MoviesDetails :movie-info="movieInfo" />
-    </div>
-  </div>
+    <MoviePanel />
+  </section>
 </template>
 
 <script>
-import MoviesListing from "@/components/MoviesListing/MoviesListing.vue";
-import MoviesDetails from "@/components/MovieDetails/MoviesDetails";
+import MoviePanel from "@/components/MoviePanel/MoviePanel";
 
 export default {
   name: "Home",
   components: {
-    MoviesDetails,
-    MoviesListing,
-  },
-  data() {
-    return {
-      movieInfo: {},
-    };
-  },
-  methods: {
-    showMovieDetails(movieInfo) {
-      this.movieInfo = movieInfo;
-    },
-  },
+    MoviePanel
+  }
 };
 </script>
 

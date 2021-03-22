@@ -1,9 +1,9 @@
 <template>
   <transition name="fade">
-    <section v-show="movieInfo.id !== undefined" id="movie-details-panel">
+    <section v-show="movieId !== ''" id="movie-details-panel">
       <h2 id="details-title">Details of the movie:</h2>
       <transition name="fade">
-        <section v-show="movieInfo.id !== undefined" :key="movieInfo.id">
+        <section v-show="movieId !== undefined" :key="movieId">
           <img :src="moviePoster" alt="mock image for the poster" />
           <h2 class="movie-title" data-test="details-title">
             {{ movie.title }}
@@ -29,25 +29,30 @@
 export default {
   name: "MoviesDetails",
   props: {
-    movieInfo: {
-      type: Object,
-    },
+    movieId: {
+      type: String
+    }
   },
   data() {
     return {
       movie: {},
-      moviePoster: "",
+      moviePoster: ""
     };
   },
   methods: {
-    showSelectedMovie(selectedMovieId) {
-      if (selectedMovieId !== "") {
-        this.fetchSelectedMovie(selectedMovieId).then(
-          (movie) => (this.movie = movie)
+    showSelectedMovie() {
+      let movie,
+        poster = "";
+      console.log(this.movieId);
+      if (this.movieId !== "") {
+        this.fetchSelectedMovie(this.movieId).then(
+          movie => (this.movie = movie)
         );
-        this.fetchMoviePosterFromOMdb(selectedMovieId).then(
-          (poster) => (this.moviePoster = poster)
+        this.fetchMoviePosterFromOMdb(this.movieId).then(
+          poster => (this.moviePoster = poster)
         );
+
+        return { movie, poster };
       }
     },
     async fetchMoviePosterFromOMdb(selectedMovieId) {
@@ -77,13 +82,8 @@ export default {
           "There has been an error and the movie could not be fetched, please try again later."
         );
       }
-    },
-  },
-  watch: {
-    movieInfo(newSelectedMovieInfo) {
-      this.showSelectedMovie(newSelectedMovieInfo.id);
-    },
-  },
+    }
+  }
 };
 </script>
 

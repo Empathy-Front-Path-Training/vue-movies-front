@@ -1,5 +1,5 @@
 <template>
-  <li class="movie-item" v-on:click="selectMovie">{{ movie.Title }}</li>
+  <li class="movie-item" @click="selectMovie">{{ movie.Title }}</li>
 </template>
 
 <script>
@@ -7,17 +7,14 @@ export default {
   name: "MovieItem",
   props: {
     movie: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   methods: {
     selectMovie() {
-      this.$emit("select-movie", {
-        id: this.movie.imdbID,
-        image: this.movie.Poster,
-      });
-    },
-  },
+      this.$emit("select-movie", this.movie.imdbID);
+    }
+  }
 };
 </script>
 
