@@ -9,8 +9,8 @@ describe("Tests for the MovieItem component", () => {
     return mount(MovieItem, {
       localVue,
       propsData: {
-        movie: moviesMockData[0],
-      },
+        movie: moviesMockData[0]
+      }
     });
   }
   const wrapper = mountMovieItem();
@@ -20,18 +20,11 @@ describe("Tests for the MovieItem component", () => {
   it("Should have the title of the movie passed through the props", () => {
     expect(wrapper.text()).toMatch(moviesMockData[0].Title);
   });
-  it(
-    "Should emit the 'select-movie' event with the 'id' and 'image' of its movie prop when" +
-      " clicked",
-    async () => {
-      await wrapper.trigger("click");
-      expect(wrapper.emitted("select-movie")).toBeTruthy();
-      expect(wrapper.emitted("select-movie")[0][0].id).toEqual(
-        wrapper.props().movie.imdbID
-      );
-      expect(wrapper.emitted("select-movie")[0][0].image).toEqual(
-        wrapper.props().movie.Poster
-      );
-    }
-  );
+  it("Should emit the 'select-movie' event with the 'id' of its movie prop when clicked", async () => {
+    await wrapper.trigger("click");
+    expect(wrapper.emitted("select-movie")).toBeTruthy();
+    expect(wrapper.emitted("select-movie")[0][0]).toEqual(
+      wrapper.props().movie.imdbID
+    );
+  });
 });

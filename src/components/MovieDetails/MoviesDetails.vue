@@ -1,9 +1,9 @@
 <template>
   <transition name="fade">
-    <section v-show="movieId !== ''" id="movie-details-panel">
+    <section v-show="movie.id !== undefined" id="movie-details-panel">
       <h2 id="details-title">Details of the movie:</h2>
       <transition name="fade">
-        <section v-show="movieId !== undefined" :key="movieId">
+        <section v-show="movie.id !== undefined" :key="movie.id">
           <img :src="moviePoster" alt="mock image for the poster" />
           <h2 class="movie-title" data-test="details-title">
             {{ movie.title }}
@@ -29,59 +29,15 @@
 export default {
   name: "MoviesDetails",
   props: {
-    movieId: {
-      type: String
-    }
-  },
-  data() {
-    return {
-      movie: {},
-      moviePoster: ""
-    };
-  },
-  methods: {
-    showSelectedMovie() {
-      let movie,
-        poster = "";
-      console.log(this.movieId);
-      if (this.movieId !== "") {
-        this.fetchSelectedMovie(this.movieId).then(
-          movie => (this.movie = movie)
-        );
-        this.fetchMoviePosterFromOMdb(this.movieId).then(
-          poster => (this.moviePoster = poster)
-        );
-
-        return { movie, poster };
+    movie: {
+      type: Object,
+      default: function() {
+        return { movie: {} };
       }
     },
-    async fetchMoviePosterFromOMdb(selectedMovieId) {
-      let poster = "";
-      try {
-        let response = await fetch(
-          "http://www.omdbapi.com/?i=" + selectedMovieId + "&apikey=a5f8e3c5"
-        );
-        let movieJson = await response.json();
-        poster = movieJson.Poster;
-      } catch (e) {
-        console.log(
-          "There has been an error and the poster could not be fetched"
-        );
-        poster = require("@/assets/stand-by.jpg");
-      }
-      return poster;
-    },
-    async fetchSelectedMovie(selectedMovieId) {
-      try {
-        let response = await fetch(
-          "http://localhost:3000/movies/" + selectedMovieId
-        );
-        return await response.json();
-      } catch (e) {
-        alert(
-          "There has been an error and the movie could not be fetched, please try again later."
-        );
-      }
+    moviePoster: {
+      type: String,
+      default: ""
     }
   }
 };
