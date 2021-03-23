@@ -7,7 +7,7 @@
         v-for="movie in movies"
         :key="movie.imdbID"
         :movie="movie"
-        v-on:select-movie="showDetails($event)"
+        @select-movie="showDetails($event)"
       >
       </MovieItem>
     </ul>
@@ -23,14 +23,14 @@ export default {
   components: { MovieItem },
   data() {
     return {
-      movies: movies,
+      movies: movies
     };
   },
   methods: {
-    showDetails(movieInfo) {
-      this.$emit("show-details", movieInfo);
-    },
-  },
+    showDetails(movieId) {
+      this.$emit("show-details", movieId);
+    }
+  }
 };
 </script>
 

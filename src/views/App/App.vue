@@ -5,8 +5,8 @@
         <div id="nav-title">
           <router-link to="/">MoVue</router-link>
           <img
-            alt="MoVue logo"
             id="logo"
+            alt="MoVue logo"
             src="../../assets/movue-transparent.png"
           />
         </div>

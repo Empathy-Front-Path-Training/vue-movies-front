@@ -10,9 +10,9 @@ describe("Tests for the MovieListing component", () => {
       localVue,
       data() {
         return {
-          movies: moviesMockData,
+          movies: moviesMockData
         };
-      },
+      }
     });
   }
   const wrapper = mountMovieListing();
@@ -22,11 +22,11 @@ describe("Tests for the MovieListing component", () => {
   });
   it(
     "Should catch the 'select-movie' event and then emit the 'show-details' event, with the" +
-      " same movieInfo object",
+      " same movieId object",
     () => {
       let movieItems = wrapper.findAllComponents(MovieItem);
       movieItems.wrappers[0].trigger("click");
-      expect(wrapper.emitted("show-details")[0][0].id).toEqual(
+      expect(wrapper.emitted("show-details")[0][0]).toEqual(
         wrapper.vm.$data.movies[0].imdbID
       );
     }
