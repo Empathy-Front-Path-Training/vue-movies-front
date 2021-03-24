@@ -24,23 +24,26 @@
   </transition>
 </template>
 
-<script>
+<script lang="ts">
 // http://www.omdbapi.com/?i=[id]&apikey=a5f8e3c5
-export default {
+import Vue from "vue";
+import { MovieInterface } from "@/interfaces/movieInterface";
+
+export default Vue.extend({
   name: "MoviesDetails",
   props: {
     movie: {
-      type: Object,
-      default: function() {
-        return { movie: {} };
-      }
+      type: MovieInterface,
+      default: function () {
+        return { movie: {} as MovieInterface };
+      },
     },
     moviePoster: {
       type: String,
-      default: ""
-    }
-  }
-};
+      default: "",
+    },
+  },
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -8,30 +8,31 @@
         :key="movie.imdbID"
         :movie="movie"
         @select-movie="showDetails($event)"
-      >
-      </MovieItem>
+      />
     </ul>
   </section>
 </template>
 
-<script>
+<script lang="ts">
+import MovieItem from "@/components/MoviesListing/components/MovieItem.vue";
 import { movies } from "@/mocks/movies";
-import MovieItem from "@/components/MoviesListing/components/MovieItem";
+import Vue from "vue";
+import { MovieMockInterface } from "@/interfaces/movieInterface";
 
-export default {
+export default Vue.extend({
   name: "MoviesListing",
   components: { MovieItem },
   data() {
     return {
-      movies: movies
+      movies: movies as Array<MovieMockInterface>,
     };
   },
   methods: {
-    showDetails(movieId) {
+    showDetails(movieId: string) {
       this.$emit("show-details", movieId);
-    }
-  }
-};
+    },
+  },
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

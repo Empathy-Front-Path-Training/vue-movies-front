@@ -5,15 +5,15 @@
   </section>
 </template>
 
-<script>
-import MoviePanel from "@/components/MoviePanel/MoviePanel";
-
-export default {
+<script lang="ts">
+import MoviePanel from "@/components/MoviePanel/MoviePanel.vue";
+import Vue from "vue";
+export default Vue.extend({
   name: "Home",
   components: {
-    MoviePanel
+    MoviePanel,
   }
-};
+});
 </script>
 
 <style src="./style.scss" lang="scss"></style>
