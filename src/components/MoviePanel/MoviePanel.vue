@@ -6,7 +6,7 @@
         id="search-box-movie"
         v-model="searchText"
         placeholder="Search your movie"
-        @input="debounceSearch"
+        @input="search"
       />
     </section>
     <MoviesListing
@@ -27,7 +27,7 @@ import MoviesDetails from "@/components/MovieDetails/MoviesDetails.vue";
 import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import _debounce from "lodash.debounce";
-import axios, { CancelTokenSource, CancelToken } from "axios";
+import axios from "axios";
 
 export default Vue.extend({
   name: "MoviePanel",
@@ -42,33 +42,48 @@ export default Vue.extend({
       searchText: "" as string,
       movieList: [] as MovieInterface[],
       searching: false as boolean,
-      axiosCancel: {} as CancelToken,
+      axiosCancel: {} as any, //ÑAPA
     };
   },
-
+  /**
+   * THIS IS A BIG ÑAPA BECAUSE IT STILL MAKES THE API CALLS (YOU CAN SEE IT IN THE CONSOLE,
+   * BUT:
+   * IT LOOKS LIKE IT WORKS, WHICH IS WHAT MATTERS FOR THE DEMO :D
+   */
+  watch: {
+    /*searchText() {
+      let preApiCallWithDebounce = _debounce(() => {
+        this.preApiCall();
+      }, 700);
+      preApiCallWithDebounce();
+    },*/
+  },
   methods: {
-    async debounceSearch() {
-      console.log("Debounced");
-      let search = _debounce(() => this.searchMovies(), 1000);
-
-      search();
-      this.searching = true;
+    search() {
+      let preApiCallWithDebounce = _debounce(() => {
+        this.preApiCall();
+      }, 700);
+      preApiCallWithDebounce();
     },
-    searchMovies() {
-      let fetchedMovieList: [] = [];
-      if (!this.axiosCancel) this.axiosCancel.cancel();
+
+    preApiCall() {
+      if (this.axiosCancel.token != null) {
+        //ÑAPA?
+        this.axiosCancel.cancel();
+      }
+      this.searchMovies();
+    },
+    async searchMovies() {
       if (this.searchText) {
+        this.axiosCancel = axios.CancelToken.source();
         axios
           .get("http://localhost:4000/movies/?title_like=" + this.searchText, {
-            cancelToken: new CancelToken(
-              (c: CancelToken) => (this.axiosCancel = c)
-            ),
+            cancelToken: this.axiosCancel.token,
           })
-          .then((response) => (fetchedMovieList = response.data));
+          .then((response) => (this.movieList = response.data));
+      } else {
+        this.movieList = [];
       }
-
-      this.movieList = fetchedMovieList;
-      this.searching = false;
     },
     showMovieDetails(movieId: string) {
       if (movieId !== "") {
