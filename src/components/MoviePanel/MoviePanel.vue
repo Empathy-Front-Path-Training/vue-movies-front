@@ -51,18 +51,22 @@ export default Vue.extend({
    * IT LOOKS LIKE IT WORKS, WHICH IS WHAT MATTERS FOR THE DEMO :D
    */
   watch: {
-    /*searchText() {
+    searchText1() {
       let preApiCallWithDebounce = _debounce(() => {
         this.preApiCall();
       }, 700);
       preApiCallWithDebounce();
-    },*/
+    },
   },
   methods: {
     search() {
       let preApiCallWithDebounce = _debounce(() => {
         this.preApiCall();
-      }, 700);
+      }, 600);
+      if (this.axiosCancel.token != null) {
+        preApiCallWithDebounce.cancel();
+        this.axiosCancel.cancel();
+      }
       preApiCallWithDebounce();
     },
 
@@ -83,6 +87,7 @@ export default Vue.extend({
           .then((response) => (this.movieList = response.data));
       } else {
         this.movieList = [];
+        this.movie = {} as MovieInterface;
       }
     },
     showMovieDetails(movieId: string) {

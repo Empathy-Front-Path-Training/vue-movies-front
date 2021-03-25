@@ -49,10 +49,10 @@ a {
   }
 }
 .fade-enter-active {
-  transition: opacity 2s;
+  transition: opacity 0.5s;
 }
 .fade-leave-active {
-  transition: opacity 2s;
+  transition: opacity 0.5s;
 }
 .fade-enter,
 .fade-leave-to {
