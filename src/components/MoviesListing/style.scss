@@ -19,3 +19,10 @@ ul {
 .displace-leave {
   opacity: 0;
 }
+#movie-search {
+  width: 50%;
+  #search-box-movie {
+    width: 100%;
+    border-radius: 15px;
+  }
+}

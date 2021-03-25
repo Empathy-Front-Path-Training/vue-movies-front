@@ -33,7 +33,7 @@ export default Vue.extend({
   name: "MoviesDetails",
   props: {
     movie: {
-      type: MovieInterface,
+      type: Object as () => MovieInterface,
       default: function () {
         return { movie: {} as MovieInterface };
       },

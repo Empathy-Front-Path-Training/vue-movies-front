@@ -1,10 +1,9 @@
 <template>
-  <!--Transition not working :D-->
-  <section id="movie-list-section">
-    <h2>List of movies</h2>
+  <section v-if="movieList.length" id="movie-list-section">
+    <h2>Search results:</h2>
     <ul id="movie-list">
       <MovieItem
-        v-for="movie in movies"
+        v-for="movie in movieList"
         :key="movie.imdbID"
         :movie="movie"
         @select-movie="showDetails($event)"
@@ -15,18 +14,19 @@
 
 <script lang="ts">
 import MovieItem from "@/components/MoviesListing/components/MovieItem.vue";
-import { movies } from "@/mocks/movies";
 import Vue from "vue";
-import { MovieMockInterface } from "@/interfaces/movieInterface";
+import { MovieInterface } from "@/interfaces/movieInterface";
 
 export default Vue.extend({
   name: "MoviesListing",
   components: { MovieItem },
-  data() {
-    return {
-      movies: movies as Array<MovieMockInterface>,
-    };
+  props: {
+    movieList: {
+      type: Array as () => MovieInterface[],
+      default: [],
+    },
   },
+
   methods: {
     showDetails(movieId: string) {
       this.$emit("show-details", movieId);
