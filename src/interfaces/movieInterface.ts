@@ -1,6 +1,6 @@
 export interface MovieMockInterface {
   Title: string;
-  Year: number;
+  Year: number | string;
   imdbID: string;
   Type: string;
   Poster: string;

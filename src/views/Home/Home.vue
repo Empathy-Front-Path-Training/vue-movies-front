@@ -12,7 +12,7 @@ export default Vue.extend({
   name: "Home",
   components: {
     MoviePanel,
-  }
+  },
 });
 </script>
 

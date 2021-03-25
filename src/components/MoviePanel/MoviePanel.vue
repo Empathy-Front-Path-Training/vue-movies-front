@@ -1,6 +1,18 @@
 <template>
   <section class="movie-panel">
-    <MoviesListing @show-details="showMovieDetails($event)" />
+    <section id="movie-search">
+      <label for="search-box-movie"></label>
+      <input
+        id="search-box-movie"
+        v-model="searchText"
+        placeholder="Search your movie"
+        @input="debounceSearch"
+      />
+    </section>
+    <MoviesListing
+      :movie-list="movieList"
+      @show-details="showMovieDetails($event)"
+    />
     <MoviesDetails
       ref="movieDetails"
       :movie="movie"
@@ -14,6 +26,8 @@ import MoviesListing from "@/components/MoviesListing/MoviesListing.vue";
 import MoviesDetails from "@/components/MovieDetails/MoviesDetails.vue";
 import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
+import _debounce from "lodash.debounce";
+
 export default Vue.extend({
   name: "MoviePanel",
   components: {
@@ -23,10 +37,28 @@ export default Vue.extend({
   data() {
     return {
       movie: {} as MovieInterface,
-      moviePoster: "" as String,
+      moviePoster: "" as string,
+      searchText: "" as string,
+      movieList: [] as MovieInterface[],
     };
   },
+
   methods: {
+    debounceSearch() {
+      return _debounce(this.searchMovies, 100);
+    },
+    searchMovies() {
+      let fetchedMovieList: [] = [];
+      if (this.searchText) {
+        fetch(
+          "http://localhost:4000/movies?title_like=" + this.searchText
+        ).then((response) =>
+          response.json().then((response) => (fetchedMovieList = response))
+        );
+      }
+
+      this.movieList = fetchedMovieList;
+    },
     showMovieDetails(movieId: string) {
       if (movieId !== "") {
         this.fetchSelectedMovie(movieId).then((movie) => (this.movie = movie));
@@ -51,10 +83,10 @@ export default Vue.extend({
       }
       return poster;
     },
-    async fetchSelectedMovie(selectedMovieId) {
+    async fetchSelectedMovie(selectedMovieId: string) {
       try {
         let response = await fetch(
-          "http://localhost:3000/movies/" + selectedMovieId
+          "http://localhost:4000/movies/" + selectedMovieId
         );
         return await response.json();
       } catch (e) {
