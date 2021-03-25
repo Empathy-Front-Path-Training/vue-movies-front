@@ -6,7 +6,7 @@
         id="search-box-movie"
         v-model="searchText"
         placeholder="Search your movie"
-        @input="debounceSearch"
+        @input="search"
       />
     </section>
     <MoviesListing
@@ -27,6 +27,7 @@ import MoviesDetails from "@/components/MovieDetails/MoviesDetails.vue";
 import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import _debounce from "lodash.debounce";
+import axios from "axios";
 
 export default Vue.extend({
   name: "MoviePanel",
@@ -40,24 +41,54 @@ export default Vue.extend({
       moviePoster: "" as string,
       searchText: "" as string,
       movieList: [] as MovieInterface[],
+      searching: false as boolean,
+      axiosCancel: {} as any, //ÑAPA
     };
   },
-
-  methods: {
-    debounceSearch() {
-      return _debounce(this.searchMovies, 100);
+  /**
+   * THIS IS A BIG ÑAPA BECAUSE IT STILL MAKES THE API CALLS (YOU CAN SEE IT IN THE CONSOLE,
+   * BUT:
+   * IT LOOKS LIKE IT WORKS, WHICH IS WHAT MATTERS FOR THE DEMO :D
+   */
+  watch: {
+    searchText1() {
+      let preApiCallWithDebounce = _debounce(() => {
+        this.preApiCall();
+      }, 700);
+      preApiCallWithDebounce();
     },
-    searchMovies() {
-      let fetchedMovieList: [] = [];
-      if (this.searchText) {
-        fetch(
-          "http://localhost:4000/movies?title_like=" + this.searchText
-        ).then((response) =>
-          response.json().then((response) => (fetchedMovieList = response))
-        );
+  },
+  methods: {
+    search() {
+      let preApiCallWithDebounce = _debounce(() => {
+        this.preApiCall();
+      }, 600);
+      if (this.axiosCancel.token != null) {
+        preApiCallWithDebounce.cancel();
+        this.axiosCancel.cancel();
       }
+      preApiCallWithDebounce();
+    },
 
-      this.movieList = fetchedMovieList;
+    preApiCall() {
+      if (this.axiosCancel.token != null) {
+        //ÑAPA?
+        this.axiosCancel.cancel();
+      }
+      this.searchMovies();
+    },
+    async searchMovies() {
+      if (this.searchText) {
+        this.axiosCancel = axios.CancelToken.source();
+        axios
+          .get("http://localhost:4000/movies/?title_like=" + this.searchText, {
+            cancelToken: this.axiosCancel.token,
+          })
+          .then((response) => (this.movieList = response.data));
+      } else {
+        this.movieList = [];
+        this.movie = {} as MovieInterface;
+      }
     },
     showMovieDetails(movieId: string) {
       if (movieId !== "") {
@@ -70,11 +101,10 @@ export default Vue.extend({
     async fetchMoviePosterFromOMdb(selectedMovieId: string) {
       let poster: string;
       try {
-        let response = await fetch(
+        let response = await axios.get(
           "http://www.omdbapi.com/?i=" + selectedMovieId + "&apikey=a5f8e3c5"
         );
-        let movieJson = await response.json();
-        poster = movieJson.Poster;
+        poster = response.data.Poster;
       } catch (e) {
         console.log(
           "There has been an error and the poster could not be fetched"
@@ -85,10 +115,10 @@ export default Vue.extend({
     },
     async fetchSelectedMovie(selectedMovieId: string) {
       try {
-        let response = await fetch(
+        let response = await axios.get(
           "http://localhost:4000/movies/" + selectedMovieId
         );
-        return await response.json();
+        return await response.data;
       } catch (e) {
         alert(
           "There has been an error and the movie could not be fetched, please try again later."
