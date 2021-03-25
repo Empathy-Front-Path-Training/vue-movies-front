@@ -4,7 +4,7 @@
     <ul id="movie-list">
       <MovieItem
         v-for="movie in movieList"
-        :key="movie.imdbID"
+        :key="movie.id"
         :movie="movie"
         @select-movie="showDetails($event)"
       />
