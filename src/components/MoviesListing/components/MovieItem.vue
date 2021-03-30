@@ -16,7 +16,8 @@ export default Vue.extend({
   },
   methods: {
     selectMovie() {
-      this.$emit("select-movie", this.movie.id);
+      this.$store.dispatch("fetchSelectedMovie", this.movie.id);
+      this.$store.dispatch("fetchPoster", this.movie.id);
     },
   },
 });

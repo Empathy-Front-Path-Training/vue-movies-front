@@ -1,13 +1,12 @@
 <template>
   <transition name="fade">
-    <section v-show="movieList.length" id="movie-list-section">
+    <section v-show="$store.state.movies.length" id="movie-list-section">
       <h2>Search results:</h2>
       <ul id="movie-list">
         <MovieItem
-          v-for="movie in movieList"
+          v-for="movie in $store.state.movies"
           :key="movie.id"
           :movie="movie"
-          @select-movie="showDetails($event)"
         />
       </ul>
     </section>
@@ -26,12 +25,6 @@ export default Vue.extend({
     movieList: {
       type: Array as () => MovieInterface[],
       default: [],
-    },
-  },
-
-  methods: {
-    showDetails(movieId: string) {
-      this.$emit("show-details", movieId);
     },
   },
 });

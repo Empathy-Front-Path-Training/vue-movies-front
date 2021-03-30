@@ -1,20 +1,18 @@
 <template>
   <transition name="fade">
-    <section v-show="movie.id !== undefined" id="movie-details-panel">
+    <section v-show="mId !== undefined" id="movie-details-panel">
       <h2 id="details-title">Details of the movie:</h2>
       <transition name="fade">
-        <section v-show="movie.id !== undefined" :key="movie.id">
-          <img :src="moviePoster" alt="mock image for the poster" />
+        <section v-show="mId !== undefined" :key="mId">
+          <img :src="mPoster" alt="" />
           <h2 class="movie-title" data-test="details-title">
-            {{ movie.title }}
+            {{ mTitle }}
           </h2>
-          <h3 data-test="details-rating">Rating: {{ movie.averageRating }}</h3>
-          <h3 data-test="details-year">
-            Year of release: {{ movie.startYear }}
-          </h3>
-          <h4 data-test="details-type">Type: {{ movie.type }}</h4>
+          <h3 data-test="details-rating">Rating: {{ mRating }}</h3>
+          <h3 data-test="details-year">Year of release: {{ mReleaseYear }}</h3>
+          <h4 data-test="details-type">Type: {{ mType }}</h4>
           <section class="tag-section">
-            <p v-for="genre in movie.genres" :key="genre" class="tag">
+            <p v-for="genre in mGenres" :key="genre" class="tag">
               {{ genre }}
             </p>
           </section>
@@ -27,22 +25,19 @@
 <script lang="ts">
 // http://www.omdbapi.com/?i=[id]&apikey=a5f8e3c5
 import Vue from "vue";
-import { MovieInterface } from "@/interfaces/movieInterface";
+import { mapState, Store } from "vuex";
 
 export default Vue.extend({
   name: "MoviesDetails",
-  props: {
-    movie: {
-      type: Object as () => MovieInterface,
-      default: function () {
-        return { movie: {} as MovieInterface };
-      },
-    },
-    moviePoster: {
-      type: String,
-      default: "",
-    },
-  },
+  computed: mapState({
+    mId: (state) => state.selectedMovie.id,
+    mTitle: (state) => state.selectedMovie.title,
+    mType: (state) => state.selectedMovie.type,
+    mReleaseYear: (state) => state.selectedMovie.startYear,
+    mRating: (state) => state.selectedMovie.averageRating,
+    mGenres: (state) => state.selectedMovie.genres,
+    mPoster: (state) => state.selectedMoviePoster,
+  }),
 });
 </script>
 
