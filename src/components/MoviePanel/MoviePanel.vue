@@ -9,15 +9,8 @@
         @input="search"
       />
     </section>
-    <MoviesListing
-      :movie-list="movieList"
-      @show-details="showMovieDetails($event)"
-    />
-    <MoviesDetails
-      ref="movieDetails"
-      :movie="movie"
-      :movie-poster="moviePoster"
-    />
+    <MoviesListing :movie-list="movieList" />
+    <MoviesDetails ref="movieDetails" />
   </section>
 </template>
 
@@ -37,11 +30,8 @@ export default Vue.extend({
   },
   data() {
     return {
-      movie: {} as MovieInterface,
-      moviePoster: "" as string,
       searchText: "" as string,
       movieList: [] as MovieInterface[],
-      searching: false as boolean,
       axiosCancel: {} as any, //ÑAPA
     };
   },
@@ -53,7 +43,7 @@ export default Vue.extend({
   watch: {
     searchText1() {
       let preApiCallWithDebounce = _debounce(() => {
-        this.preApiCall();
+        this.preFetch();
       }, 700);
       preApiCallWithDebounce();
     },
@@ -61,7 +51,7 @@ export default Vue.extend({
   methods: {
     search() {
       let preApiCallWithDebounce = _debounce(() => {
-        this.preApiCall();
+        this.preFetch();
       }, 600);
       if (this.axiosCancel.token != null) {
         preApiCallWithDebounce.cancel();
@@ -70,7 +60,7 @@ export default Vue.extend({
       preApiCallWithDebounce();
     },
 
-    preApiCall() {
+    preFetch() {
       if (this.axiosCancel.token != null) {
         //ÑAPA?
         this.axiosCancel.cancel();
@@ -84,45 +74,11 @@ export default Vue.extend({
           .get("http://localhost:4000/movies/?title_like=" + this.searchText, {
             cancelToken: this.axiosCancel.token,
           })
-          .then((response) => (this.movieList = response.data));
+          .then((response) => {
+            this.$store.dispatch("setMovies", response.data);
+          });
       } else {
-        this.movieList = [];
-        this.movie = {} as MovieInterface;
-      }
-    },
-    showMovieDetails(movieId: string) {
-      if (movieId !== "") {
-        this.fetchSelectedMovie(movieId).then((movie) => (this.movie = movie));
-        this.fetchMoviePosterFromOMdb(movieId).then(
-          (poster) => (this.moviePoster = poster)
-        );
-      }
-    },
-    async fetchMoviePosterFromOMdb(selectedMovieId: string) {
-      let poster: string;
-      try {
-        let response = await axios.get(
-          "http://www.omdbapi.com/?i=" + selectedMovieId + "&apikey=a5f8e3c5"
-        );
-        poster = response.data.Poster;
-      } catch (e) {
-        console.log(
-          "There has been an error and the poster could not be fetched"
-        );
-        poster = require("@/assets/stand-by.jpg");
-      }
-      return poster;
-    },
-    async fetchSelectedMovie(selectedMovieId: string) {
-      try {
-        let response = await axios.get(
-          "http://localhost:4000/movies/" + selectedMovieId
-        );
-        return await response.data;
-      } catch (e) {
-        alert(
-          "There has been an error and the movie could not be fetched, please try again later."
-        );
+        await this.$store.dispatch("unselectMovie");
       }
     },
   },

@@ -2,7 +2,7 @@ import { createLocalVue, mount } from "@vue/test-utils";
 import {
   getDataTestSelector,
   moviesDbMockData,
-  moviesMockData
+  moviesMockData,
 } from "./test.utils";
 import MoviesDetails from "@/components/MovieDetails/MoviesDetails";
 
@@ -17,15 +17,15 @@ describe("Tests fot the MovieDetails component", () => {
       localVue,
       propsData: {
         movie: movie1Mock,
-        moviePoster: movie1PosterMock
-      }
+        selectedMoviePoster: movie1PosterMock,
+      },
     });
     return {
       wrapper,
       movieTitle: wrapper.find(getDataTestSelector("details-title")),
       movieRating: wrapper.find(getDataTestSelector("details-rating")),
       movieYear: wrapper.find(getDataTestSelector("details-year")),
-      movieType: wrapper.find(getDataTestSelector("details-type"))
+      movieType: wrapper.find(getDataTestSelector("details-type")),
     };
   }
   const { movieTitle, movieRating, movieYear, movieType } = mountMovieDetails();

@@ -2,7 +2,7 @@ import { createLocalVue, mount } from "@vue/test-utils";
 import {
   getDataTestSelector,
   moviesDbMockData,
-  moviesMockData
+  moviesMockData,
 } from "./test.utils";
 import MoviePanel from "@/components/MoviePanel/MoviePanel";
 import MoviesListing from "@/components/MoviesListing/MoviesListing";
@@ -21,13 +21,13 @@ describe("Tests fot the MoviePanel component", () => {
       data() {
         return {
           movie: {},
-          moviePoster: ""
+          selectedMoviePoster: "",
         };
-      }
+      },
     });
     return {
       wrapper,
-      movieTitle: wrapper.find(getDataTestSelector("details-title"))
+      movieTitle: wrapper.find(getDataTestSelector("details-title")),
     };
   }
   const { wrapper, movieTitle } = mountMoviePanel();
