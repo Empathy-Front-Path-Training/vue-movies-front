@@ -5,7 +5,7 @@
         {{ movie.title }}
       </h2>
       <section v-show="id !== ''" :key="id">
-        <img :src="movie.poster" alt="" />
+        <img :src="moviePoster" alt="" />
 
         <h3 data-test="details-rating">Rating: {{ movie.averageRating }}</h3>
         <h3 data-test="details-year">Year of release: {{ movie.startYear }}</h3>
