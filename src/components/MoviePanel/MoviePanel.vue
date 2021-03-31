@@ -9,7 +9,7 @@
         @input="search"
       />
     </section>
-    <MoviesListing :movie-list="movieList" />
+    <MoviesListing v-if="$store.state.movies.length" :movie-list="movieList" />
   </section>
 </template>
 

@@ -12,6 +12,11 @@ export default new Vuex.Store({
     selectedMoviePoster: "" as string,
     selectedMovieId: "" as string,
   },
+  getters: {
+    getSelectedMovie: (state) => {
+      return [state.selectedMovie, state.selectedMoviePoster];
+    },
+  },
   mutations: {
     setMovies(state, movies: MovieInterface[]) {
       state.movies = movies;

@@ -1,23 +1,21 @@
 <template>
   <transition name="fade">
-    <section v-show="id !== ''" id="movie-details-panel">
-      <h2 id="details-title">Details of the movie:</h2>
-      <transition name="fade">
-        <section v-show="id !== ''" :key="id">
-          <img :src="mPoster" alt="" />
-          <h2 class="movie-title" data-test="details-title">
-            {{ mTitle }}
-          </h2>
-          <h3 data-test="details-rating">Rating: {{ mRating }}</h3>
-          <h3 data-test="details-year">Year of release: {{ mReleaseYear }}</h3>
-          <h4 data-test="details-type">Type: {{ mType }}</h4>
-          <section class="tag-section">
-            <p v-for="genre in mGenres" :key="genre" class="tag">
-              {{ genre }}
-            </p>
-          </section>
+    <section v-show="movie.title !== ''" id="movie-details-panel">
+      <h2 class="movie-title" data-test="details-title">
+        {{ movie.title }}
+      </h2>
+      <section v-show="id !== ''" :key="id">
+        <img :src="movie.poster" alt="" />
+
+        <h3 data-test="details-rating">Rating: {{ movie.averageRating }}</h3>
+        <h3 data-test="details-year">Year of release: {{ movie.startYear }}</h3>
+        <h4 data-test="details-type">Type: {{ movie.type }}</h4>
+        <section class="tag-section">
+          <p v-for="genre in movie.genres" :key="genre" class="tag">
+            {{ genre }}
+          </p>
         </section>
-      </transition>
+      </section>
     </section>
   </transition>
 </template>
@@ -31,29 +29,30 @@ export default Vue.extend({
   name: "MoviesDetails",
   data() {
     return {
-      id: "" as MovieInterface.id,
+      id: "" as MovieInterface["id"],
     };
   },
-  computed: mapState({
-    mTitle: (state) => state.selectedMovie.title,
-    mType: (state) => state.selectedMovie.type,
-    mReleaseYear: (state) => state.selectedMovie.startYear,
-    mRating: (state) => state.selectedMovie.averageRating,
-    mGenres: (state) => state.selectedMovie.genres,
-    mPoster: (state) => state.selectedMoviePoster,
-  }),
-
+  computed: {
+    movie(): MovieInterface {
+      return this.$store.state.selectedMovie;
+    },
+    moviePoster(): string {
+      return this.$store.state.selectedMoviePoster;
+    },
+  },
   mounted() {
     this.id = this.$route.params.id;
-    this.$store
-      .dispatch("fetchSelectedMovie", this.id)
-      .then(this.$store.dispatch("fetchPoster", this.id));
+    this.fetchMovieDetails();
   },
-  beforeRouteUpdate(to, from, next) {
+  methods: {
+    fetchMovieDetails() {
+      this.$store.dispatch("fetchSelectedMovie", this.id);
+      this.$store.dispatch("fetchPoster", this.id);
+    },
+  },
+  beforeRouteUpdate(to) {
     this.id = to.params.id;
-    this.$store
-      .dispatch("fetchSelectedMovie", this.id)
-      .then(this.$store.dispatch("fetchPoster", this.id));
+    this.fetchMovieDetails();
   },
 });
 </script>

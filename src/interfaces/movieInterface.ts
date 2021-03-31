@@ -9,7 +9,7 @@ export interface MovieMockInterface {
 export interface MovieInterface {
   id: string;
   title: string;
-  genres: Array<string>;
+  genres: string[];
   type: string;
   averageRating: string | number;
   votes: string | number;
