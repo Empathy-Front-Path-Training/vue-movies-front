@@ -1,12 +1,11 @@
 <template>
   <transition name="fade">
     <section v-if="moviePoster !== ''" id="movie-details-panel">
-      <h2 class="movie-title" data-test="details-title">
-        {{ movie.title }}
-      </h2>
-      <section v-show="id !== ''" :key="id">
-        <img :src="moviePoster" alt="" />
-
+      <img :src="moviePoster" alt="" />
+      <section v-show="id !== ''" id="details" :key="id">
+        <h2 class="movie-title" data-test="details-title">
+          {{ movie.title }}
+        </h2>
         <h3 data-test="details-rating">Rating: {{ movie.averageRating }}</h3>
         <h3 data-test="details-year">Year of release: {{ movie.startYear }}</h3>
         <h4 data-test="details-type">Type: {{ movie.type }}</h4>
