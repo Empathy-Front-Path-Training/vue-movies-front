@@ -19,7 +19,7 @@ export default Vue.extend({
     selectMovie() {
       this.$router.push({
         name: "Movie Details",
-        params: { id: this.movie.id },
+        params: { id: this.movie.id as string },
       });
     },
   },

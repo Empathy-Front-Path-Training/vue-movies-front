@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <section v-show="movie.title !== ''" id="movie-details-panel">
+    <section v-if="moviePoster !== ''" id="movie-details-panel">
       <h2 class="movie-title" data-test="details-title">
         {{ movie.title }}
       </h2>
@@ -22,7 +22,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapState, Store } from "vuex";
 import { MovieInterface } from "@/interfaces/movieInterface";
 
 export default Vue.extend({
@@ -40,10 +39,11 @@ export default Vue.extend({
       return this.$store.state.selectedMoviePoster;
     },
   },
-  mounted() {
+  beforeMount() {
     this.id = this.$route.params.id;
     this.fetchMovieDetails();
   },
+
   methods: {
     fetchMovieDetails() {
       this.$store.dispatch("fetchSelectedMovie", this.id);
