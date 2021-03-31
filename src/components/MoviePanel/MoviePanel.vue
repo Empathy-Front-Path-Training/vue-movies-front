@@ -9,14 +9,12 @@
         @input="search"
       />
     </section>
-    <MoviesListing :movie-list="movieList" />
-    <MoviesDetails ref="movieDetails" />
+    <MoviesListing v-if="$store.state.movies.length" :movie-list="movieList" />
   </section>
 </template>
 
 <script lang="ts">
 import MoviesListing from "@/components/MoviesListing/MoviesListing.vue";
-import MoviesDetails from "@/components/MovieDetails/MoviesDetails.vue";
 import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import _debounce from "lodash.debounce";
@@ -25,7 +23,6 @@ import axios from "axios";
 export default Vue.extend({
   name: "MoviePanel",
   components: {
-    MoviesDetails,
     MoviesListing,
   },
   data() {

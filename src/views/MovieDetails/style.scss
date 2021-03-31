@@ -11,20 +11,25 @@ a {
 }
 
 #movie-details-panel {
-  width: 30%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   align-content: center;
+  margin-top: 3%;
 
   #details-title {
   }
 
   img {
-    width: 40%;
-    height: auto;
     border-radius: 40px;
     margin: 10px;
     padding: 10px;
+  }
+  #details {
+    padding: 5vh;
+    * {
+      padding: 1vh;
+    }
   }
 
   .movie-title {
@@ -52,7 +57,7 @@ a {
   transition: opacity 0.5s;
 }
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0s;
 }
 .fade-enter,
 .fade-leave-to {

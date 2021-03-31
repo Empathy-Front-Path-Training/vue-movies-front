@@ -12,6 +12,11 @@ export default new Vuex.Store({
     selectedMoviePoster: "" as string,
     selectedMovieId: "" as string,
   },
+  getters: {
+    getSelectedMovie: (state) => {
+      return [state.selectedMovie, state.selectedMoviePoster];
+    },
+  },
   mutations: {
     setMovies(state, movies: MovieInterface[]) {
       state.movies = movies;
@@ -29,14 +34,17 @@ export default new Vuex.Store({
     },
     unselectMovie(context) {
       context.commit("setSelectedMovie", {});
+      context.commit("setPoster", "");
     },
     async fetchPoster(context, movieId) {
       let poster: string;
       try {
-        const response = await axios.get(
-          "http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5"
-        );
-        poster = response.data.Poster;
+        poster = await axios
+          .get("http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5")
+          .then((response) => {
+            return response.data.Poster;
+          });
+        // poster = response.data.Poster;
       } catch (e) {
         console.log(
           "There has been an error and the poster could not be fetched"
@@ -47,6 +55,7 @@ export default new Vuex.Store({
     },
 
     async fetchSelectedMovie(context, selectedMovieId: string) {
+      await context.dispatch("unselectMovie");
       try {
         const response = await axios.get(
           "http://localhost:4000/movies/" + selectedMovieId

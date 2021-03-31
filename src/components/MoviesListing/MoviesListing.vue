@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <section v-show="$store.state.movies.length" id="movie-list-section">
+    <section id="movie-list-section">
       <h2>Search results:</h2>
       <ul id="movie-list">
         <MovieItem
