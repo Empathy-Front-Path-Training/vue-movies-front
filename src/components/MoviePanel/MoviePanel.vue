@@ -10,7 +10,6 @@
       />
     </section>
     <MoviesListing :movie-list="movieList" />
-    <MoviesDetails ref="movieDetails" />
   </section>
 </template>
 
@@ -25,7 +24,6 @@ import axios from "axios";
 export default Vue.extend({
   name: "MoviePanel",
   components: {
-    MoviesDetails,
     MoviesListing,
   },
   data() {

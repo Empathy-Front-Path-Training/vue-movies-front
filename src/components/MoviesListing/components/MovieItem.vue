@@ -14,10 +14,13 @@ export default Vue.extend({
       default: {},
     },
   },
+
   methods: {
     selectMovie() {
-      this.$store.dispatch("fetchSelectedMovie", this.movie.id);
-      this.$store.dispatch("fetchPoster", this.movie.id);
+      this.$router.push({
+        name: "Movie Details",
+        params: { id: this.movie.id },
+      });
     },
   },
 });

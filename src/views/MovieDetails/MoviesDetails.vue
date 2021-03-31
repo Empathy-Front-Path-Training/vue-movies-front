@@ -1,9 +1,9 @@
 <template>
   <transition name="fade">
-    <section v-show="mId !== undefined" id="movie-details-panel">
+    <section v-show="id !== ''" id="movie-details-panel">
       <h2 id="details-title">Details of the movie:</h2>
       <transition name="fade">
-        <section v-show="mId !== undefined" :key="mId">
+        <section v-show="id !== ''" :key="id">
           <img :src="mPoster" alt="" />
           <h2 class="movie-title" data-test="details-title">
             {{ mTitle }}
@@ -23,14 +23,18 @@
 </template>
 
 <script lang="ts">
-// http://www.omdbapi.com/?i=[id]&apikey=a5f8e3c5
 import Vue from "vue";
 import { mapState, Store } from "vuex";
+import { MovieInterface } from "@/interfaces/movieInterface";
 
 export default Vue.extend({
   name: "MoviesDetails",
+  data() {
+    return {
+      id: "" as MovieInterface.id,
+    };
+  },
   computed: mapState({
-    mId: (state) => state.selectedMovie.id,
     mTitle: (state) => state.selectedMovie.title,
     mType: (state) => state.selectedMovie.type,
     mReleaseYear: (state) => state.selectedMovie.startYear,
@@ -38,6 +42,19 @@ export default Vue.extend({
     mGenres: (state) => state.selectedMovie.genres,
     mPoster: (state) => state.selectedMoviePoster,
   }),
+
+  mounted() {
+    this.id = this.$route.params.id;
+    this.$store
+      .dispatch("fetchSelectedMovie", this.id)
+      .then(this.$store.dispatch("fetchPoster", this.id));
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.id = to.params.id;
+    this.$store
+      .dispatch("fetchSelectedMovie", this.id)
+      .then(this.$store.dispatch("fetchPoster", this.id));
+  },
 });
 </script>
 
