@@ -37,14 +37,6 @@ export default Vue.extend({
    * BUT:
    * IT LOOKS LIKE IT WORKS, WHICH IS WHAT MATTERS FOR THE DEMO :D
    */
-  watch: {
-    searchText1() {
-      let preApiCallWithDebounce = _debounce(() => {
-        this.preFetch();
-      }, 700);
-      preApiCallWithDebounce();
-    },
-  },
   methods: {
     search() {
       let preApiCallWithDebounce = _debounce(() => {
@@ -68,11 +60,11 @@ export default Vue.extend({
       if (this.searchText) {
         this.axiosCancel = axios.CancelToken.source();
         axios
-          .get("http://localhost:4000/movies/?title_like=" + this.searchText, {
+          .get("http://localhost:8080/search?query=" + this.searchText, {
             cancelToken: this.axiosCancel.token,
           })
           .then((response) => {
-            this.$store.dispatch("setMovies", response.data);
+            this.$store.dispatch("setMovies", response.data.items);
           });
       } else {
         await this.$store.dispatch("unselectMovie");

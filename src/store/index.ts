@@ -19,6 +19,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setMovies(state, movies: MovieInterface[]) {
+      console.log(movies);
       state.movies = movies;
     },
     setPoster(state, poster: string) {
@@ -54,19 +55,15 @@ export default new Vuex.Store({
       context.commit("setPoster", poster);
     },
 
-    async fetchSelectedMovie(context, selectedMovieId: string) {
-      await context.dispatch("unselectMovie");
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/movies/" + selectedMovieId
-        );
-        const movie = await response.data;
-        context.commit("setSelectedMovie", movie);
-      } catch (e) {
-        alert(
-          "There has been an error and the movie could not be fetched, please try again later."
-        );
-      }
+    fetchSelectedMovie(
+      { state, commit },
+      selectedMovieId: MovieInterface["id"]
+    ) {
+      const tempMovie = state.movies.filter(
+        (movie) => movie.id == selectedMovieId
+      )[0];
+      console.log(tempMovie);
+      commit("setSelectedMovie", tempMovie);
     },
   },
   modules: {},
