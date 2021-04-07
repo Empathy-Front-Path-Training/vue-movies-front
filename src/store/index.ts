@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import axios from "axios";
-import { Facet } from "@/interfaces/Facets";
+import { FacetInterface } from "@/interfaces/Facets";
 
 Vue.use(Vuex);
 
@@ -12,9 +12,9 @@ export default new Vuex.Store({
     selectedMovie: {} as MovieInterface,
     selectedMoviePoster: "" as string,
     selectedMovieId: "" as string,
-    facetGenres: [] as Facet[],
-    facetTypes: [] as Facet[],
-    facetDecades: [] as Facet[],
+    facetGenres: [] as FacetInterface[],
+    facetTypes: [] as FacetInterface[],
+    facetDecades: [] as FacetInterface[],
   },
   getters: {
     getSelectedMovie: (state) => {
@@ -32,13 +32,13 @@ export default new Vuex.Store({
     setSelectedMovie(state, movie: MovieInterface) {
       state.selectedMovie = movie;
     },
-    setFacetGenres(state, genres: Facet[]) {
+    setFacetGenres(state, genres: FacetInterface[]) {
       state.facetGenres = genres;
     },
-    setFacetTypes(state, types: Facet[]) {
+    setFacetTypes(state, types: FacetInterface[]) {
       state.facetTypes = types;
     },
-    setFacetDecades(state, decades: Facet[]) {
+    setFacetDecades(state, decades: FacetInterface[]) {
       state.facetDecades = decades;
     },
   },
@@ -68,7 +68,7 @@ export default new Vuex.Store({
         );
     },
     createFacetsArray(context, facetItem) {
-      const facetArray: Facet[] = [];
+      const facetArray: FacetInterface[] = [];
       for (const item in facetItem) {
         if (Object.prototype.hasOwnProperty.call(facetItem, item)) {
           facetArray.push({ name: item, itemCount: facetItem[item] });

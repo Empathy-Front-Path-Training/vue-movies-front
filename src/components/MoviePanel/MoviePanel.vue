@@ -1,6 +1,6 @@
 <template>
   <section class="movie-panel">
-    <Facets v-if="$store.state.movies.length" />
+    <FacetsPanel v-if="$store.state.movies.length" />
     <section id="movie-search">
       <label for="search-box-movie"></label>
       <input
@@ -20,12 +20,12 @@ import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import _debounce from "lodash.debounce";
 import axios from "axios";
-import Facets from "@/components/Facets/Facets.vue";
+import FacetsPanel from "@/components/FacetsPanel/FacetsPanel.vue";
 
 export default Vue.extend({
   name: "MoviePanel",
   components: {
-    Facets,
+    FacetsPanel,
     MoviesListing,
   },
   data() {
