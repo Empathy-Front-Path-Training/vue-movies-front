@@ -1,5 +1,6 @@
 <template>
   <section class="movie-panel">
+    <Facets v-if="$store.state.movies.length" />
     <section id="movie-search">
       <label for="search-box-movie"></label>
       <input
@@ -19,10 +20,12 @@ import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import _debounce from "lodash.debounce";
 import axios from "axios";
+import Facets from "@/components/Facets/Facets.vue";
 
 export default Vue.extend({
   name: "MoviePanel",
   components: {
+    Facets,
     MoviesListing,
   },
   data() {
@@ -59,12 +62,30 @@ export default Vue.extend({
     async searchMovies() {
       if (this.searchText) {
         this.axiosCancel = axios.CancelToken.source();
+        let params = {
+          query: this.searchText,
+          type: "movie",
+        };
         axios
-          .get("http://localhost:8080/search?query=" + this.searchText, {
+          .get("http://localhost:8080/search?", {
+            params,
             cancelToken: this.axiosCancel.token,
           })
           .then((response) => {
             this.$store.dispatch("setMovies", response.data.items);
+            this.$store.dispatch(
+              "setFacetGenres",
+              response.data.aggregations[0].genres
+            );
+            this.$store.dispatch(
+              "setFacetTypes",
+              response.data.aggregations[1].types
+            );
+            console.log(this.$store.state.facetGenres);
+            this.$store.dispatch(
+              "setFacetDecades",
+              response.data.aggregations[2].decades
+            );
           });
       } else {
         await this.$store.dispatch("unselectMovie");

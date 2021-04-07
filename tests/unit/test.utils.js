@@ -33,7 +33,7 @@ export const moviesDbMockData = [
   {
     id: "tt0848228",
     title: "The Avengers",
-    genres: ["Action", "Adventure", "Sci-Fi"],
+    facetGenres: ["Action", "Adventure", "Sci-Fi"],
     type: "movie",
     averageRating: "8.0",
     votes: "1,263,208",
@@ -43,7 +43,7 @@ export const moviesDbMockData = [
   {
     id: "tt4154756",
     title: "Avengers: Infinity War",
-    genres: ["Action", "Adventure", "Sci-Fi"],
+    facetGenres: ["Action", "Adventure", "Sci-Fi"],
     type: "movie",
     averageRating: "8.4",
     votes: "839,788",

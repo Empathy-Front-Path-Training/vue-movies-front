@@ -12,7 +12,7 @@
         </h3>
         <h4 data-test="details-type">Type: {{ movie.type }}</h4>
         <section class="tag-section">
-          <p v-for="genre in movie.genres" :key="genre" class="tag">
+          <p v-for="genre in movie.facetGenres" :key="genre" class="tag">
             {{ genre }}
           </p>
         </section>

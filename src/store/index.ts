@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import axios from "axios";
+import { Facet } from "@/interfaces/Facets";
 
 Vue.use(Vuex);
 
@@ -11,6 +12,9 @@ export default new Vuex.Store({
     selectedMovie: {} as MovieInterface,
     selectedMoviePoster: "" as string,
     selectedMovieId: "" as string,
+    facetGenres: [] as Facet[],
+    facetTypes: [] as Facet[],
+    facetDecades: [] as Facet[],
   },
   getters: {
     getSelectedMovie: (state) => {
@@ -28,6 +32,15 @@ export default new Vuex.Store({
     setSelectedMovie(state, movie: MovieInterface) {
       state.selectedMovie = movie;
     },
+    setFacetGenres(state, genres: Facet[]) {
+      state.facetGenres = genres;
+    },
+    setFacetTypes(state, types: Facet[]) {
+      state.facetTypes = types;
+    },
+    setFacetDecades(state, decades: Facet[]) {
+      state.facetDecades = decades;
+    },
   },
   actions: {
     setMovies(context, movies: MovieInterface[]) {
@@ -36,6 +49,32 @@ export default new Vuex.Store({
     unselectMovie(context) {
       context.commit("setSelectedMovie", {});
       context.commit("setPoster", "");
+    },
+    setFacetGenres(context, genres) {
+      context
+        .dispatch("createFacetsArray", genres)
+        .then((genreFacets) => context.commit("setFacetGenres", genreFacets));
+    },
+    setFacetTypes(context, types) {
+      context
+        .dispatch("createFacetsArray", types)
+        .then((typeFacets) => context.commit("setFacetTypes", typeFacets));
+    },
+    setFacetDecades(context, decades) {
+      context
+        .dispatch("createFacetsArray", decades)
+        .then((decadeFacets) =>
+          context.commit("setFacetDecades", decadeFacets)
+        );
+    },
+    createFacetsArray(context, facetItem) {
+      const facetArray: Facet[] = [];
+      for (const item in facetItem) {
+        if (Object.prototype.hasOwnProperty.call(facetItem, item)) {
+          facetArray.push({ name: item, itemCount: facetItem[item] });
+        }
+      }
+      return facetArray;
     },
     async fetchPoster(context, movieId) {
       let poster: string;
