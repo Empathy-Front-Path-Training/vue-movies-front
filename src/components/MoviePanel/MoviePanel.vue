@@ -57,7 +57,10 @@ export default Vue.extend({
         //ÑAPA?
         this.axiosCancel.cancel();
       }
-      this.searchMovies();
+      this.$store.dispatch("searchMovies", {
+        searchText: this.searchText,
+        axiosCancel: this.axiosCancel,
+      });
     },
     async searchMovies() {
       if (this.searchText) {

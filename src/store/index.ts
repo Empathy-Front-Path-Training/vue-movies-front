@@ -15,10 +15,20 @@ export default new Vuex.Store({
     facetGenres: [] as FacetInterface[],
     facetTypes: [] as FacetInterface[],
     facetDecades: [] as FacetInterface[],
+    selectedFacets: [] as FacetInterface[],
   },
   getters: {
     getSelectedMovie: (state) => {
       return [state.selectedMovie, state.selectedMoviePoster];
+    },
+    getFacetsRouteParams: (state) => {
+      return state.selectedFacets.reduce(
+        (route: string, facetParam: FacetInterface) => {
+          route += "&" + facetParam.type + "=" + facetParam.name;
+          return route;
+        },
+        ""
+      );
     },
   },
   mutations: {
@@ -41,6 +51,15 @@ export default new Vuex.Store({
     setFacetDecades(state, decades: FacetInterface[]) {
       state.facetDecades = decades;
     },
+    addFacet(state, facetToAdd: FacetInterface) {
+      state.selectedFacets.push(facetToAdd);
+    },
+    removeFacet(state, facetToRemove: FacetInterface) {
+      const index = state.selectedFacets.findIndex(
+        (facet) => facet.name == facetToRemove.name
+      );
+      state.selectedFacets.splice(index, 1);
+    },
   },
   actions: {
     setMovies(context, movies: MovieInterface[]) {
@@ -52,28 +71,61 @@ export default new Vuex.Store({
     },
     setFacetGenres(context, genres) {
       context
-        .dispatch("createFacetsArray", genres)
+        .dispatch("createFacetsArray", {
+          facetItem: genres,
+          facetType: "genre",
+        })
         .then((genreFacets) => context.commit("setFacetGenres", genreFacets));
     },
     setFacetTypes(context, types) {
       context
-        .dispatch("createFacetsArray", types)
+        .dispatch("createFacetsArray", { facetItem: types, facetType: "type" })
         .then((typeFacets) => context.commit("setFacetTypes", typeFacets));
     },
     setFacetDecades(context, decades) {
       context
-        .dispatch("createFacetsArray", decades)
+        .dispatch("createFacetsArray", {
+          facetItem: decades,
+          facetType: "date",
+        })
         .then((decadeFacets) =>
           context.commit("setFacetDecades", decadeFacets)
         );
     },
-    createFacetsArray(context, facetItem) {
+    async searchMovies({ commit, dispatch }, { searchText, axiosCancel }) {
+      if (searchText) {
+        axiosCancel = axios.CancelToken.source();
+        const params = {
+          query: searchText,
+          type: "movie",
+        };
+        axios
+          .get("http://localhost:8080/search?", {
+            params,
+            cancelToken: axiosCancel.token,
+          })
+          .then((response) => {
+            dispatch("setMovies", response.data.items);
+            dispatch("setFacetGenres", response.data.aggregations[0].genres);
+            dispatch("setFacetTypes", response.data.aggregations[1].types);
+            dispatch("setFacetDecades", response.data.aggregations[2].decades);
+          });
+      } else {
+        await dispatch("unselectMovie");
+      }
+    },
+    createFacetsArray(context, { facetItem, facetType }) {
       const facetArray: FacetInterface[] = [];
       for (const item in facetItem) {
         if (Object.prototype.hasOwnProperty.call(facetItem, item)) {
-          facetArray.push({ name: item, itemCount: facetItem[item] });
+          facetArray.push({
+            type: facetType,
+            name: item,
+            itemCount: facetItem[item],
+          });
         }
       }
+      console.log(facetArray);
       return facetArray;
     },
     async fetchPoster(context, movieId) {
@@ -103,6 +155,12 @@ export default new Vuex.Store({
       )[0];
       console.log(tempMovie);
       commit("setSelectedMovie", tempMovie);
+    },
+    addFacet(context, facet: FacetInterface) {
+      context.commit("addFacet", facet);
+    },
+    removeFacet(context, facet: FacetInterface) {
+      context.commit("removeFacet", facet);
     },
   },
   modules: {},
