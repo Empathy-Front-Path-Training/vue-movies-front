@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { MovieInterface } from "@/interfaces/movieInterface";
-import axios from "axios";
+import axios, { CancelToken, CancelTokenSource } from "axios";
 import { FacetInterface } from "@/interfaces/Facets";
 
 Vue.use(Vuex);
@@ -17,7 +17,7 @@ export default new Vuex.Store({
     facetDecades: [] as FacetInterface[],
     selectedFacets: [] as FacetInterface[],
     searchText: "" as string,
-    axiosCancel: {} as any, //ÑAPA
+    axiosCancel: {} as CancelTokenSource | undefined,
   },
   getters: {
     getSelectedMovie: (state) => {
@@ -72,7 +72,7 @@ export default new Vuex.Store({
     setSearchText(state, searchText: string) {
       state.searchText = searchText;
     },
-    setAxiosCancel(state, axiosCancel: any) {
+    setAxiosCancel(state, axiosCancel: CancelTokenSource | undefined) {
       state.axiosCancel = axiosCancel;
     },
   },
@@ -80,7 +80,7 @@ export default new Vuex.Store({
     clearFacets({ commit }) {
       commit("clearFacets");
     },
-    setAxiosCancel({ commit }, axiosCancel: any) {
+    setAxiosCancel({ commit }, axiosCancel: CancelTokenSource | undefined) {
       commit("setAxiosCancel", axiosCancel);
     },
     setSearchText({ commit }, searchText: string) {

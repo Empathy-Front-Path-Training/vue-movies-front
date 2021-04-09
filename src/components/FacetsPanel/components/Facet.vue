@@ -23,7 +23,7 @@ export default {
     },
   },
   methods: {
-    updateFacet(event: boolean) {
+    updateFacet(event: Event) {
       console.log(event.target.checked);
 
       if (event.target.checked) {
