@@ -11,9 +11,9 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from "vue";
-import Facet from "@/components/FacetsPanel/components/Facet";
+import Facet from "@/components/FacetsPanel/components/Facet.vue";
 
 export default Vue.extend({
   name: "FacetsPanel",

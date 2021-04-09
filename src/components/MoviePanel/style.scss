@@ -1,11 +1,14 @@
-.movie-panel {
+#movie-listing-and-search {
   display: flex;
   justify-content: center;
-  padding: 50px;
+
   flex-direction: row;
   flex-wrap: wrap;
 }
-
+#movie-panel {
+  display: flex;
+  justify-content: space-around;
+}
 #movie-search {
   flex-basis: 100%;
   width: 100%;

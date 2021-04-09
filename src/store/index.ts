@@ -16,6 +16,8 @@ export default new Vuex.Store({
     facetTypes: [] as FacetInterface[],
     facetDecades: [] as FacetInterface[],
     selectedFacets: [] as FacetInterface[],
+    searchText: "" as string,
+    axiosCancel: {} as any, //ÑAPA
   },
   getters: {
     getSelectedMovie: (state) => {
@@ -32,9 +34,12 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setMovies(state, movies: MovieInterface[]) {
-      console.log(movies);
-      state.movies = movies;
+    setMovies(state, movies: MovieInterface[] | MovieInterface) {
+      if (Array.isArray(movies)) state.movies = movies;
+      else {
+        state.movies = [];
+        state.movies.push(movies);
+      }
     },
     setPoster(state, poster: string) {
       state.selectedMoviePoster = poster;
@@ -60,22 +65,54 @@ export default new Vuex.Store({
       );
       state.selectedFacets.splice(index, 1);
     },
+    clearFacets(state) {
+      state.selectedFacets.forEach((facet) => (facet.selected = false));
+      state.selectedFacets = [];
+    },
+    setSearchText(state, searchText: string) {
+      state.searchText = searchText;
+    },
+    setAxiosCancel(state, axiosCancel: any) {
+      state.axiosCancel = axiosCancel;
+    },
   },
   actions: {
-    setMovies(context, movies: MovieInterface[]) {
+    clearFacets({ commit }) {
+      commit("clearFacets");
+    },
+    setAxiosCancel({ commit }, axiosCancel: any) {
+      commit("setAxiosCancel", axiosCancel);
+    },
+    setSearchText({ commit }, searchText: string) {
+      commit("setSearchText", searchText);
+    },
+    setMovies(context, movies: MovieInterface[] | MovieInterface) {
       context.commit("setMovies", movies);
     },
     unselectMovie(context) {
       context.commit("setSelectedMovie", {});
       context.commit("setPoster", "");
     },
-    setFacetGenres(context, genres) {
-      context
-        .dispatch("createFacetsArray", {
-          facetItem: genres,
-          facetType: "genre",
-        })
-        .then((genreFacets) => context.commit("setFacetGenres", genreFacets));
+    async setFacetGenres(context, genres) {
+      const genreFacets = await context.dispatch("createFacetsArray", {
+        facetItem: genres,
+        facetType: "genre",
+      });
+
+      const facets = await context.dispatch("setFacetArray", genreFacets);
+      console.log(facets);
+      context.commit("setFacetGenres", facets);
+    },
+    setFacetArray({ state }, retrievedFacets: FacetInterface[]) {
+      const array: FacetInterface[] = [];
+      retrievedFacets.forEach((genre) => {
+        const genreIsUsed = state.facetGenres.find(
+          (oldGenre) => oldGenre.name === genre.name && oldGenre.selected
+        );
+        if (genreIsUsed) array.push(genreIsUsed);
+        else array.push(genre);
+      });
+      return array;
     },
     setFacetTypes(context, types) {
       context
@@ -92,17 +129,14 @@ export default new Vuex.Store({
           context.commit("setFacetDecades", decadeFacets)
         );
     },
-    async searchMovies({ commit, dispatch }, { searchText, axiosCancel }) {
-      if (searchText) {
-        axiosCancel = axios.CancelToken.source();
-        const params = {
-          query: searchText,
-          type: "movie",
-        };
+
+    searchMovies({ getters, dispatch, state }) {
+      if (state.searchText) {
+        state.axiosCancel = axios.CancelToken.source();
+        const completeQuery = state.searchText + getters.getFacetsRouteParams;
         axios
-          .get("http://localhost:8080/search?", {
-            params,
-            cancelToken: axiosCancel.token,
+          .get("http://localhost:8080/search?query=" + completeQuery, {
+            cancelToken: state.axiosCancel.token,
           })
           .then((response) => {
             dispatch("setMovies", response.data.items);
@@ -111,7 +145,7 @@ export default new Vuex.Store({
             dispatch("setFacetDecades", response.data.aggregations[2].decades);
           });
       } else {
-        await dispatch("unselectMovie");
+        dispatch("unselectMovie");
       }
     },
     createFacetsArray(context, { facetItem, facetType }) {
@@ -122,10 +156,11 @@ export default new Vuex.Store({
             type: facetType,
             name: item,
             itemCount: facetItem[item],
+            selected: false,
           });
         }
       }
-      console.log(facetArray);
+
       return facetArray;
     },
     async fetchPoster(context, movieId) {
@@ -153,7 +188,7 @@ export default new Vuex.Store({
       const tempMovie = state.movies.filter(
         (movie) => movie.id == selectedMovieId
       )[0];
-      console.log(tempMovie);
+
       commit("setSelectedMovie", tempMovie);
     },
     addFacet(context, facet: FacetInterface) {
