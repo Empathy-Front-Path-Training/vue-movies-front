@@ -21,15 +21,6 @@ export default {
       type: Object as () => FacetInterface,
       default: {},
     },
-    clearFacets: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  watch: {
-    clearFacets() {
-      //if (this.clearFacets) this.facetInfo.selected = false;
-    },
   },
   methods: {
     updateFacet(event: boolean) {

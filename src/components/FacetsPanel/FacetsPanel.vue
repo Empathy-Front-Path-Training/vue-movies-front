@@ -7,6 +7,18 @@
           <Facet :facet-info="genre"></Facet>
         </li>
       </ul>
+      <h2>Types</h2>
+      <ul>
+        <li v-for="type in $store.state.facetTypes" :key="type.name">
+          <Facet :facet-info="type"></Facet>
+        </li>
+      </ul>
+      <h2>Decades</h2>
+      <ul>
+        <li v-for="decade in $store.state.facetDecades" :key="decade.name">
+          <Facet :facet-info="decade"></Facet>
+        </li>
+      </ul>
     </section>
   </section>
 </template>

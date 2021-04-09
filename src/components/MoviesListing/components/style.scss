@@ -4,11 +4,12 @@
   cursor: pointer;
   opacity: 0.7;
   background: #504c4c;
-  transition: all 0.3s ease;
+  transition: 0.3s ease-in;
   border-radius: 15px;
   &:hover {
-    transform: scale(1.5);
     opacity: 1;
+    background: #283f68;
+    transition: 1s ease;
     border-radius: 75px;
   }
   &:active {

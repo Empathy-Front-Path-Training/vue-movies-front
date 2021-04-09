@@ -26,7 +26,7 @@ export default new Vuex.Store({
     getFacetsRouteParams: (state) => {
       return state.selectedFacets.reduce(
         (route: string, facetParam: FacetInterface) => {
-          route += "&" + facetParam.type + "=" + facetParam.name;
+          route += "&filter=" + facetParam.type + ":" + facetParam.name;
           return route;
         },
         ""
@@ -93,47 +93,56 @@ export default new Vuex.Store({
       context.commit("setSelectedMovie", {});
       context.commit("setPoster", "");
     },
-    async setFacetGenres(context, genres) {
-      const genreFacets = await context.dispatch("createFacetsArray", {
+    async setFacetGenres({ state, dispatch, commit }, genres) {
+      const genreFacets = await dispatch("createFacetsArray", {
         facetItem: genres,
-        facetType: "genre",
+        facetType: "genres",
       });
 
-      const facets = await context.dispatch("setFacetArray", genreFacets);
-      console.log(facets);
-      context.commit("setFacetGenres", facets);
+      const facets = await dispatch("setFacetArray", genreFacets);
+
+      commit("setFacetGenres", facets);
     },
-    setFacetArray({ state }, retrievedFacets: FacetInterface[]) {
+
+    async setFacetTypes({ state, dispatch, commit }, types) {
+      const typeFacets = await dispatch("createFacetsArray", {
+        facetItem: types,
+        facetType: "type",
+      });
+
+      const facets = await dispatch("setFacetArray", typeFacets);
+
+      commit("setFacetTypes", facets);
+    },
+    async setFacetDecades({ state, dispatch, commit }, decades) {
+      const decadeFacets = await dispatch("createFacetsArray", {
+        facetItem: decades,
+        facetType: "date",
+      });
+
+      const facets = await dispatch("setFacetArray", decadeFacets);
+      commit("setFacetDecades", facets);
+    },
+
+    setFacetArray({ state }, retrievedFacets) {
       const array: FacetInterface[] = [];
-      retrievedFacets.forEach((genre) => {
-        const genreIsUsed = state.facetGenres.find(
-          (oldGenre) => oldGenre.name === genre.name && oldGenre.selected
+      retrievedFacets.forEach((retrievedFacet: FacetInterface) => {
+        const usedFacet = state.selectedFacets.find(
+          (oldFacet: FacetInterface) =>
+            oldFacet.name == retrievedFacet.name && oldFacet.selected
         );
-        if (genreIsUsed) array.push(genreIsUsed);
-        else array.push(genre);
+
+        if (usedFacet) array.push(usedFacet);
+        else array.push(retrievedFacet);
       });
       return array;
-    },
-    setFacetTypes(context, types) {
-      context
-        .dispatch("createFacetsArray", { facetItem: types, facetType: "type" })
-        .then((typeFacets) => context.commit("setFacetTypes", typeFacets));
-    },
-    setFacetDecades(context, decades) {
-      context
-        .dispatch("createFacetsArray", {
-          facetItem: decades,
-          facetType: "date",
-        })
-        .then((decadeFacets) =>
-          context.commit("setFacetDecades", decadeFacets)
-        );
     },
 
     searchMovies({ getters, dispatch, state }) {
       if (state.searchText) {
         state.axiosCancel = axios.CancelToken.source();
         const completeQuery = state.searchText + getters.getFacetsRouteParams;
+        console.log(completeQuery);
         axios
           .get("http://localhost:8080/search?query=" + completeQuery, {
             cancelToken: state.axiosCancel.token,
