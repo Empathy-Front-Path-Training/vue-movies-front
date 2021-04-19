@@ -2,23 +2,27 @@
   <section id="facets-component">
     <section id="genre-facets" class="facet-panel">
       <h2>Genres</h2>
-      <ul>
+      <ul class="facet-list">
         <li v-for="genre in $store.state.facetGenres" :key="genre.name">
           <Facet :facet-info="genre"></Facet>
         </li>
       </ul>
-      <h2>Types</h2>
-      <ul>
-        <li v-for="type in $store.state.facetTypes" :key="type.name">
-          <Facet :facet-info="type"></Facet>
-        </li>
-      </ul>
-      <h2>Decades</h2>
-      <ul>
-        <li v-for="decade in $store.state.facetDecades" :key="decade.name">
-          <Facet :facet-info="decade"></Facet>
-        </li>
-      </ul>
+      <section id="type-facets" class="facet-panel">
+        <h2>Types</h2>
+        <ul class="facet-list">
+          <li v-for="type in $store.state.facetTypes" :key="type.name">
+            <Facet :facet-info="type"></Facet>
+          </li>
+        </ul>
+      </section>
+      <section id="decade-facets" class="facet-panel">
+        <h2>Decades</h2>
+        <ul class="facet-list">
+          <li v-for="decade in $store.state.facetDecades" :key="decade.name">
+            <Facet :facet-info="decade"></Facet>
+          </li>
+        </ul>
+      </section>
     </section>
   </section>
 </template>
@@ -33,4 +37,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped></style>
+<style scoped src="./style.scss" lang="scss"></style>

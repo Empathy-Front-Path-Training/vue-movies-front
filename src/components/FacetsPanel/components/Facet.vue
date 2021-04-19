@@ -1,6 +1,8 @@
 <template>
-  <label class="facet-label">
-    {{ facetInfo.name }} ({{ facetInfo.itemCount }})
+  <section class="facet-item">
+    <label :for="facetInfo.name" class="facet-label">
+      {{ facetInfo.name }} ({{ facetInfo.itemCount }})
+    </label>
     <input
       :id="facetInfo.name"
       v-model="facetInfo.selected"
@@ -8,13 +10,14 @@
       type="checkbox"
       @input="updateFacet"
     />
-  </label>
+  </section>
 </template>
 
 <script lang="ts">
 import { FacetInterface } from "@/interfaces/Facets";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   name: "Facet",
   props: {
     facetInfo: {
@@ -23,7 +26,7 @@ export default {
     },
   },
   methods: {
-    updateFacet(event) {
+    updateFacet(event: Event) {
       if (event.target.checked) {
         this.facetInfo.selected = true;
         this.$store.dispatch("addFacet", this.facetInfo);
@@ -34,7 +37,7 @@ export default {
       this.$store.dispatch("searchMovies");
     },
   },
-};
+});
 </script>
 
-<style scoped></style>
+<style src="./style.scss" lang="scss" scoped></style>
