@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <section id="movie-list-section">
+    <section v-if="$store.state.movies.length" id="movie-list-section">
       <h2>Search results:</h2>
       <ul id="movie-list">
         <MovieItem
@@ -14,19 +14,13 @@
 </template>
 
 <script lang="ts">
-import MovieItem from "@/components/MoviesListing/components/MovieItem.vue";
+import MovieItem from "@/components/MovieResults/components/MovieItem.vue";
 import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
 
 export default Vue.extend({
-  name: "MoviesListing",
+  name: "MovieResults",
   components: { MovieItem },
-  props: {
-    movieList: {
-      type: Array as () => MovieInterface[],
-      default: [],
-    },
-  },
 });
 </script>
 

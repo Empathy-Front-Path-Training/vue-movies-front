@@ -1,1 +1,7 @@
-
+#home {
+  display: grid;
+  grid-template-areas:
+    "facets title"
+    "facets search"
+    "facets results";
+}

@@ -1,5 +1,5 @@
 <template>
-  <section id="facets-component">
+  <section v-show="thereAreFacets">
     <section id="genre-facets" class="facet-panel">
       <h2>Genres</h2>
       <ul class="facet-list">
@@ -34,6 +34,15 @@ import Facet from "@/components/FacetsPanel/components/Facet.vue";
 export default Vue.extend({
   name: "FacetsPanel",
   components: { Facet },
+  computed: {
+    thereAreFacets() {
+      return (
+        this.$store.state.facetGenres.length ||
+        this.$store.state.facetTypes.length ||
+        this.$store.state.facetDecades.length
+      );
+    },
+  },
 });
 </script>
 

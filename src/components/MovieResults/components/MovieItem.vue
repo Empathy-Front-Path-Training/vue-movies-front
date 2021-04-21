@@ -14,7 +14,11 @@ export default Vue.extend({
       default: {},
     },
   },
-
+  computed: {
+    thumbnail() {
+      return this.$store.dispatch("fetchPoster", this.movie.id);
+    },
+  },
   methods: {
     selectMovie() {
       this.$router.push({

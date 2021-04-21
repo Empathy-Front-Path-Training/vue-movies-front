@@ -46,14 +46,14 @@ export default Vue.extend({
   },
 
   methods: {
-    fetchMovieDetails() {
-      this.$store.dispatch("fetchSelectedMovie", this.id);
-      this.$store.dispatch("fetchPoster", this.id);
+    async fetchMovieDetails() {
+      await this.$store.dispatch("fetchSelectedMovie", this.id);
+      await this.$store.dispatch("fetchPoster", this.id);
     },
   },
-  beforeRouteUpdate(to) {
+  async beforeRouteUpdate(to) {
     this.id = to.params.id;
-    this.fetchMovieDetails();
+    await this.fetchMovieDetails();
   },
 });
 </script>

@@ -10,19 +10,22 @@ ul {
   list-style-type: none;
   padding: 10px;
 }
-//Not working
-.displace-enter-active,
-.displace-leave-active {
-  transition: opacity 5s;
-}
-.displace-enter,
-.displace-leave {
-  opacity: 0;
-}
+
 #movie-search {
   width: 50%;
   #search-box-movie {
     width: 100%;
     border-radius: 15px;
   }
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }

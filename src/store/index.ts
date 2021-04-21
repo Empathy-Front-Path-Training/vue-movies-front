@@ -172,6 +172,14 @@ export default new Vuex.Store({
 
       return facetArray;
     },
+    async setSelectedPoster({ dispatch, commit }, movieId) {
+      const poster = await dispatch("fetchPoster", movieId).then((response) => {
+        console.log(response);
+        return response.result;
+      });
+      commit("setPoster", poster);
+    },
+
     async fetchPoster(context, movieId) {
       let poster: string;
       try {
@@ -187,7 +195,7 @@ export default new Vuex.Store({
         );
         poster = require("@/assets/stand-by.jpg");
       }
-      context.commit("setPoster", poster);
+      return poster;
     },
 
     fetchSelectedMovie(
