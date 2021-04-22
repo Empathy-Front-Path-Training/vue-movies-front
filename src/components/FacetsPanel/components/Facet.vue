@@ -1,7 +1,6 @@
 <template>
   <section class="facet-item">
     <label :for="facetInfo.name" class="facet-label">
-      {{ capitalizedFacet() }} ({{ facetInfo.itemCount }})
       <input
         :id="facetInfo.name"
         v-model="facetInfo.selected"
@@ -9,6 +8,7 @@
         type="checkbox"
         @input="updateFacet"
       />
+      {{ capitalizedFacet() }} ({{ facetInfo.itemCount }})
     </label>
   </section>
 </template>
