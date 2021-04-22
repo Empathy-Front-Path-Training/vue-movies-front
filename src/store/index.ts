@@ -173,10 +173,8 @@ export default new Vuex.Store({
       return facetArray;
     },
     async setSelectedPoster({ dispatch, commit }, movieId) {
-      const poster = await dispatch("fetchPoster", movieId).then((response) => {
-        console.log(response);
-        return response.result;
-      });
+      const poster = await dispatch("fetchPoster", movieId);
+
       commit("setPoster", poster);
     },
 

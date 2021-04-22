@@ -40,15 +40,15 @@ export default Vue.extend({
       return this.$store.state.selectedMoviePoster;
     },
   },
-  beforeMount() {
+  async beforeMount() {
     this.id = this.$route.params.id;
-    this.fetchMovieDetails();
+    await this.fetchMovieDetails();
   },
 
   methods: {
     async fetchMovieDetails() {
       await this.$store.dispatch("fetchSelectedMovie", this.id);
-      await this.$store.dispatch("fetchPoster", this.id);
+      await this.$store.dispatch("setSelectedPoster", this.id);
     },
   },
   async beforeRouteUpdate(to) {
