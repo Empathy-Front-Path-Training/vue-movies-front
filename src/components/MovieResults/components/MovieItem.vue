@@ -1,5 +1,8 @@
 <template>
-  <li class="movie-item" @click="selectMovie">{{ movie.title }}</li>
+  <li class="movie-item" @click="selectMovie">
+    <img class="thumbnail" :src="thumbnail" :alt="altTextPoster" />
+    <p>{{ movie.title }}</p>
+  </li>
 </template>
 
 <script lang="ts">
@@ -14,12 +17,23 @@ export default Vue.extend({
       default: {},
     },
   },
+  data() {
+    return {
+      thumbnail: "" as string,
+    };
+  },
   computed: {
-    thumbnail() {
-      return this.$store.dispatch("fetchPoster", this.movie.id);
+    altTextPoster() {
+      return "Poster for the movie " + this.movie.title;
     },
   },
+  async beforeMount() {
+    await this.setPoster();
+  },
   methods: {
+    async setPoster() {
+      this.thumbnail = await this.$store.dispatch("fetchPoster", this.movie.id);
+    },
     selectMovie() {
       this.$router.push({
         name: "Movie Details",

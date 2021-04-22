@@ -1,7 +1,24 @@
 #home {
   display: grid;
   grid-template-areas:
-    "facets title"
-    "facets search"
+    "title title"
+    "search search"
     "facets results";
+  grid-template-columns: 25% 75%;
+
+  #facets-component {
+    grid-area: facets;
+  }
+
+  #home-title {
+    grid-area: title;
+  }
+
+  #movie-search-component {
+    grid-area: search;
+  }
+
+  #movie-results-component {
+    grid-area: results;
+  }
 }

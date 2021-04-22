@@ -30,10 +30,13 @@ export default Vue.extend({
    * IT LOOKS LIKE IT WORKS, WHICH IS WHAT MATTERS FOR THE DEMO :D
    */
   watch: {
-    searchText(newSearchText, oldSearchText) {
-      if (newSearchText.length < oldSearchText.length)
-        this.$store.dispatch("clearFacets");
+    searchText(newSearchText) {
+      this.$store.commit("clearSelectedFacets");
 
+      if (!newSearchText.length) {
+        this.$store.commit("clearFacets");
+        this.$store.commit("clearResults");
+      }
       this.search();
     },
   },

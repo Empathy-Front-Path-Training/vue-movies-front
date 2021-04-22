@@ -65,9 +65,17 @@ export default new Vuex.Store({
       );
       state.selectedFacets.splice(index, 1);
     },
-    clearFacets(state) {
+    clearSelectedFacets(state) {
       state.selectedFacets.forEach((facet) => (facet.selected = false));
       state.selectedFacets = [];
+    },
+    clearFacets(state) {
+      state.facetGenres = [];
+      state.facetTypes = [];
+      state.facetDecades = [];
+    },
+    clearResults(state) {
+      state.movies = [];
     },
     setSearchText(state, searchText: string) {
       state.searchText = searchText;
@@ -77,9 +85,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    clearFacets({ commit }) {
-      commit("clearFacets");
-    },
     setAxiosCancel({ commit }, axiosCancel: CancelTokenSource | undefined) {
       commit("setAxiosCancel", axiosCancel);
     },
@@ -104,7 +109,7 @@ export default new Vuex.Store({
       commit("setFacetGenres", facets);
     },
 
-    async setFacetTypes({ state, dispatch, commit }, types) {
+    async setFacetTypes({ dispatch, commit }, types) {
       const typeFacets = await dispatch("createFacetsArray", {
         facetItem: types,
         facetType: "type",
@@ -191,7 +196,10 @@ export default new Vuex.Store({
         console.log(
           "There has been an error and the poster could not be fetched"
         );
-        poster = require("@/assets/stand-by.jpg");
+        poster = require("@/assets/404PosterNotFound.jpg");
+      }
+      if (!poster || poster == "N/A") {
+        poster = require("@/assets/404PosterNotFound.jpg");
       }
       return poster;
     },

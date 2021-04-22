@@ -1,9 +1,9 @@
 <template>
   <section id="home">
-    <h1 class="title">MoVue</h1>
+    <h1 id="home-title" class="company-title">MoVue</h1>
     <FacetsPanel id="facets-component" />
     <MovieSearch id="movie-search-component" />
-    <MovieResults id="movie-listing-component" />
+    <MovieResults id="movie-results-component" />
   </section>
 </template>
 

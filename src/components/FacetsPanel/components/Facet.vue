@@ -1,15 +1,15 @@
 <template>
   <section class="facet-item">
     <label :for="facetInfo.name" class="facet-label">
-      {{ facetInfo.name }} ({{ facetInfo.itemCount }})
+      {{ capitalizedFacet() }} ({{ facetInfo.itemCount }})
+      <input
+        :id="facetInfo.name"
+        v-model="facetInfo.selected"
+        class="facet-checkbox"
+        type="checkbox"
+        @input="updateFacet"
+      />
     </label>
-    <input
-      :id="facetInfo.name"
-      v-model="facetInfo.selected"
-      class="facet-checkbox"
-      type="checkbox"
-      @input="updateFacet"
-    />
   </section>
 </template>
 
@@ -26,6 +26,12 @@ export default Vue.extend({
     },
   },
   methods: {
+    capitalizedFacet() {
+      return (
+        this.facetInfo.name.charAt(0).toUpperCase() +
+        this.facetInfo.name.slice(1)
+      );
+    },
     updateFacet(event: Event) {
       if (event.target.checked) {
         this.facetInfo.selected = true;
