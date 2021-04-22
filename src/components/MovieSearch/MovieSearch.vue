@@ -6,9 +6,11 @@
       v-model="searchText"
       placeholder="Search your movie"
     />
-    <button id="clear-search">
-      <img alt="" src="@/assets/cancel.svg" />
-    </button>
+    <transition name="fade">
+      <button v-show="searchText.length" @click="clearSearch" id="clear-search">
+        <img alt="" src="@/assets/cancel.svg" />
+      </button>
+    </transition>
   </section>
 </template>
 
@@ -44,6 +46,9 @@ export default Vue.extend({
     },
   },
   methods: {
+    clearSearch() {
+      this.searchText = "";
+    },
     search() {
       this.$store.dispatch("setSearchText", this.searchText);
 
