@@ -6,6 +6,9 @@
       v-model="searchText"
       placeholder="Search your movie"
     />
+    <button id="clear-search">
+      <img alt="" src="@/assets/cancel.svg" />
+    </button>
   </section>
 </template>
 
