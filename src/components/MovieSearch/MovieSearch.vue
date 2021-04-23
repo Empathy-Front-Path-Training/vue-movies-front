@@ -36,6 +36,7 @@ export default Vue.extend({
    */
   watch: {
     searchText(newSearchText) {
+      this.$store.commit("setResultsLoaded", false);
       this.$store.commit("clearSelectedFacets");
 
       if (!newSearchText.length) {

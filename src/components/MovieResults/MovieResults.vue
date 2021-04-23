@@ -15,8 +15,6 @@
 <script lang="ts">
 import MovieItem from "@/components/MovieResults/components/MovieItem.vue";
 import Vue from "vue";
-import { MovieInterface } from "@/interfaces/movieInterface";
-
 export default Vue.extend({
   name: "MovieResults",
   components: { MovieItem },

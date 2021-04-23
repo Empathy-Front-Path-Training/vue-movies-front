@@ -18,6 +18,7 @@ export default new Vuex.Store({
     selectedFacets: [] as FacetInterface[],
     searchText: "" as string,
     axiosCancel: {} as CancelTokenSource | undefined,
+    resultsLoaded: false as boolean,
   },
   getters: {
     getSelectedMovie: (state) => {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setResultsLoaded(state, loaded: boolean) {
+      state.resultsLoaded = loaded;
+    },
     setMovies(state, movies: MovieInterface[] | MovieInterface) {
       if (Array.isArray(movies)) state.movies = movies;
       else {

@@ -1,6 +1,6 @@
 #movie-search-component {
   width: 45%;
-  height: 70%;
+  height: 3rem;
   margin: 1%;
   border-radius: 15px;
   transition: all 0.2s ease;
@@ -17,12 +17,13 @@
   #clear-search {
     width: 5%;
     cursor: pointer;
+    padding-top: 0.5rem;
   }
   #clear-search,
   #search-box-movie {
     height: 70%;
-    margin-top: 0.7%;
-    margin-bottom: 0.5%;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
     background-color: Transparent;
     background-repeat: no-repeat;
     border: none;
