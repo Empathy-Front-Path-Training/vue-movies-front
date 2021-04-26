@@ -7,7 +7,7 @@
       placeholder="Search your movie"
     />
     <transition name="fade">
-      <button v-show="searchText.length" @click="clearSearch" id="clear-search">
+      <button v-show="searchText.length" id="clear-search" @click="clearSearch">
         <img alt="" src="@/assets/cancel.svg" />
       </button>
     </transition>

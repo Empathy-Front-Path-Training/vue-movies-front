@@ -151,7 +151,6 @@ export default new Vuex.Store({
       if (state.searchText) {
         state.axiosCancel = axios.CancelToken.source();
         const completeQuery = state.searchText + getters.getFacetsRouteParams;
-        console.log(completeQuery);
         axios
           .get("http://localhost:8080/search?query=" + completeQuery, {
             cancelToken: state.axiosCancel.token,
@@ -190,17 +189,12 @@ export default new Vuex.Store({
     async fetchPoster(context, movieId) {
       let poster: string;
       try {
-        poster = await axios
-          .get("http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5")
-          .then((response) => {
-            return response.data.Poster;
-          });
-        // poster = response.data.Poster;
-      } catch (e) {
-        console.log(
-          "There has been an error and the poster could not be fetched"
+        const response = await axios.get(
+          "http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5"
         );
-        poster = require("@/assets/404PosterNotFound.jpg");
+        poster = response.data.Poster;
+      } catch (e) {
+        //poster = require("@/assets/404PosterNotFound.jpg");
       }
       if (!poster || poster == "N/A") {
         poster = require("@/assets/404PosterNotFound.jpg");

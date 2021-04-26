@@ -1,6 +1,11 @@
 <template>
   <li class="movie-item" @click="selectMovie">
-    <img class="thumbnail" :src="thumbnail" :alt="altTextPoster" />
+    <img
+      class="thumbnail"
+      :src="thumbnail"
+      :alt="altTextPoster"
+      @error="setAlternativePoster()"
+    />
     <p>{{ movie.title }}</p>
   </li>
 </template>
@@ -31,6 +36,9 @@ export default Vue.extend({
     await this.setPoster();
   },
   methods: {
+    setAlternativePoster() {
+      this.thumbnail = require("@/assets/404PosterNotFound.jpg");
+    },
     async setPoster() {
       this.thumbnail = await this.$store.dispatch("fetchPoster", this.movie.id);
     },

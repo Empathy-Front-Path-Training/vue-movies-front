@@ -1,14 +1,19 @@
 <template>
   <section v-show="thereAreFacets">
     <section id="genre-facets" class="facet-panel">
-      <h2>Genres</h2>
+      <section class="facet-header">
+        <h2>Genres</h2>
+      </section>
       <ul class="facet-list">
         <li v-for="genre in $store.state.facetGenres" :key="genre.name">
           <Facet :facet-info="genre"></Facet>
         </li>
       </ul>
       <section id="type-facets" class="facet-panel">
-        <h2>Types</h2>
+        <section class="facet-header">
+          <h2>Types</h2>
+        </section>
+
         <ul class="facet-list">
           <li v-for="type in $store.state.facetTypes" :key="type.name">
             <Facet :facet-info="type"></Facet>
@@ -16,7 +21,10 @@
         </ul>
       </section>
       <section id="decade-facets" class="facet-panel">
-        <h2>Decades</h2>
+        <section class="facet-header">
+          <h2>Decades</h2>
+        </section>
+
         <ul class="facet-list">
           <li v-for="decade in $store.state.facetDecades" :key="decade.name">
             <Facet :facet-info="decade"></Facet>

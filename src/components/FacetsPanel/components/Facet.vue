@@ -1,5 +1,5 @@
 <template>
-  <section class="facet-item">
+  <section class="facet-item" :class="computedSelectionClass">
     <label :for="facetInfo.name" class="facet-label">
       <input
         :id="facetInfo.name"
@@ -23,6 +23,11 @@ export default Vue.extend({
     facetInfo: {
       type: Object as () => FacetInterface,
       default: {},
+    },
+  },
+  computed: {
+    computedSelectionClass() {
+      return this.facetInfo.selected ? "selected" : "unselected";
     },
   },
   methods: {
