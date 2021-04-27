@@ -191,8 +191,6 @@ function getTotalNumberOfInfectedPersons() {
     if (person.infected) infected++;
     return infected;
   }, 0);
-
-  console.log("The number of infected people is: ", totalInfected);
 }
 
 // Número total de sanos

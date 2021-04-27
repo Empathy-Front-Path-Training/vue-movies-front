@@ -23,9 +23,7 @@ export default {
     },
   },
   methods: {
-    updateFacet(event: Event) {
-      console.log(event.target.checked);
-
+    updateFacet(event) {
       if (event.target.checked) {
         this.facetInfo.selected = true;
         this.$store.dispatch("addFacet", this.facetInfo);
@@ -34,7 +32,6 @@ export default {
         this.$store.dispatch("removeFacet", this.facetInfo);
       }
       this.$store.dispatch("searchMovies");
-      console.log("invoking them movies");
     },
   },
 };
