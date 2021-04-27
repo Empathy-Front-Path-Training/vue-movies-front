@@ -1,0 +1,24 @@
+#movie-list-section {
+  justify-content: end;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+ul {
+  list-style-type: none;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

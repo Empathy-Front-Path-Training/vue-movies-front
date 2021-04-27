@@ -4,11 +4,11 @@ import {
   moviesDbMockData,
   moviesMockData,
 } from "./test.utils";
-import MoviePanel from "@/components/MoviePanel/MoviePanel";
-import MoviesListing from "@/components/MoviesListing/MoviesListing";
+import MovieSearch from "@/components/MovieSearch/MovieSearch";
+import MovieResults from "@/components/MovieResults/MovieResults";
 import fetchMock from "jest-fetch-mock";
 
-describe("Tests fot the MoviePanel component", () => {
+describe("Tests fot the MovieSearch component", () => {
   const localVue = createLocalVue();
 
   const movie1PosterMock = moviesMockData[1].Poster;
@@ -16,7 +16,7 @@ describe("Tests fot the MoviePanel component", () => {
   const movie2Mock = moviesDbMockData[1];
 
   function mountMoviePanel() {
-    let wrapper = mount(MoviePanel, {
+    let wrapper = mount(MovieSearch, {
       localVue,
       data() {
         return {
@@ -31,7 +31,7 @@ describe("Tests fot the MoviePanel component", () => {
     };
   }
   const { wrapper, movieTitle } = mountMoviePanel();
-  let movieListing = wrapper.findComponent(MoviesListing);
+  let movieListing = wrapper.findComponent(MovieResults);
   it(
     "Should catch the 'show-details' event and fetch the data of the movie whose id is passed" +
       " on the event",

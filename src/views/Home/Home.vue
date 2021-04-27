@@ -1,17 +1,23 @@
 <template>
-  <section class="home">
-    <h1 class="title">MoVue</h1>
-    <MoviePanel />
+  <section id="home">
+    <h1 id="home-title" class="company-title">MoVue</h1>
+    <FacetsPanel id="facets-component" />
+    <MovieSearch id="movie-search-component" />
+    <MovieResults id="movie-results-component" />
   </section>
 </template>
 
 <script lang="ts">
-import MoviePanel from "@/components/MoviePanel/MoviePanel.vue";
+import MovieSearch from "@/components/MovieSearch/MovieSearch.vue";
 import Vue from "vue";
+import FacetsPanel from "@/components/FacetsPanel/FacetsPanel.vue";
+import MovieResults from "@/components/MovieResults/MovieResults.vue";
 export default Vue.extend({
   name: "Home",
   components: {
-    MoviePanel,
+    MovieResults,
+    FacetsPanel,
+    MovieSearch,
   },
 });
 </script>

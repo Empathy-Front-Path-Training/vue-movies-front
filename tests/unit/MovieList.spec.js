@@ -1,18 +1,18 @@
 import { createLocalVue, mount } from "@vue/test-utils";
-import MoviesListing from "@/components/MoviesListing/MoviesListing";
-import MovieItem from "@/components/MoviesListing/components/MovieItem";
+import MovieResults from "@/components/MovieResults/MovieResults";
+import MovieItem from "@/components/MovieResults/components/MovieItem";
 import { moviesMockData } from "./test.utils";
 
 describe("Tests for the MovieListing component", () => {
   const localVue = createLocalVue();
   function mountMovieListing() {
-    return mount(MoviesListing, {
+    return mount(MovieResults, {
       localVue,
       data() {
         return {
-          movies: moviesMockData
+          movies: moviesMockData,
         };
-      }
+      },
     });
   }
   const wrapper = mountMovieListing();

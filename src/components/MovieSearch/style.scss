@@ -1,0 +1,58 @@
+#movie-search-component {
+  width: 45%;
+  height: 3rem;
+  margin: 1%;
+  border-radius: 15px;
+  transition: all 0.2s ease;
+  padding-left: 10px;
+  background: white;
+  justify-self: center;
+  display: flex;
+  flex-direction: row;
+
+  #search-box-movie {
+    width: 94%;
+    font-size: 1.2em;
+  }
+  #clear-search {
+    width: 5%;
+    cursor: pointer;
+    padding-top: 0.5rem;
+    img {
+      max-width: 20px;
+    }
+  }
+  #clear-search,
+  #search-box-movie {
+    height: 70%;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    overflow: hidden;
+    outline: none;
+  }
+  &:focus {
+    &,
+    #clear-search,
+    #search-box-movie {
+      transform: scale(1.3);
+      outline: none;
+    }
+  }
+  img {
+    max-width: 75%;
+  }
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-active {
+  transition: opacity 0s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

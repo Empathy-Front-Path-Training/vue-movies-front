@@ -1,20 +1,23 @@
 <template>
-  <label class="facet-label">
-    {{ facetInfo.name }} ({{ facetInfo.itemCount }})
-    <input
-      :id="facetInfo.name"
-      v-model="facetInfo.selected"
-      class="facet-checkbox"
-      type="checkbox"
-      @input="updateFacet"
-    />
-  </label>
+  <section class="facet-item" :class="computedSelectionClass">
+    <label :for="facetInfo.name" class="facet-label">
+      <input
+        :id="facetInfo.name"
+        v-model="facetInfo.selected"
+        class="facet-checkbox"
+        type="checkbox"
+        @input="updateFacet"
+      />
+      {{ capitalizedFacet() }} ({{ facetInfo.itemCount }})
+    </label>
+  </section>
 </template>
 
 <script lang="ts">
 import { FacetInterface } from "@/interfaces/Facets";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   name: "Facet",
   props: {
     facetInfo: {
@@ -22,8 +25,19 @@ export default {
       default: {},
     },
   },
+  computed: {
+    computedSelectionClass() {
+      return this.facetInfo.selected ? "selected" : "unselected";
+    },
+  },
   methods: {
-    updateFacet(event) {
+    capitalizedFacet() {
+      return (
+        this.facetInfo.name.charAt(0).toUpperCase() +
+        this.facetInfo.name.slice(1)
+      );
+    },
+    updateFacet(event: Event) {
       if (event.target.checked) {
         this.facetInfo.selected = true;
         this.$store.dispatch("addFacet", this.facetInfo);
@@ -34,7 +48,7 @@ export default {
       this.$store.dispatch("searchMovies");
     },
   },
-};
+});
 </script>
 
-<style scoped></style>
+<style src="./style.scss" lang="scss" scoped></style>

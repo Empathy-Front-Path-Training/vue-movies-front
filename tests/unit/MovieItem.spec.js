@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from "@vue/test-utils";
-import MovieItem from "@/components/MoviesListing/components/MovieItem";
+import MovieItem from "@/components/MovieResults/components/MovieItem";
 import { moviesMockData } from "./test.utils";
 
 describe("Tests for the MovieItem component", () => {
@@ -9,8 +9,8 @@ describe("Tests for the MovieItem component", () => {
     return mount(MovieItem, {
       localVue,
       propsData: {
-        movie: moviesMockData[0]
-      }
+        movie: moviesMockData[0],
+      },
     });
   }
   const wrapper = mountMovieItem();

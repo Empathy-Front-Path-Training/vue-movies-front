@@ -18,6 +18,7 @@ export default new Vuex.Store({
     selectedFacets: [] as FacetInterface[],
     searchText: "" as string,
     axiosCancel: {} as CancelTokenSource | undefined,
+    resultsLoaded: false as boolean,
   },
   getters: {
     getSelectedMovie: (state) => {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setResultsLoaded(state, loaded: boolean) {
+      state.resultsLoaded = loaded;
+    },
     setMovies(state, movies: MovieInterface[] | MovieInterface) {
       if (Array.isArray(movies)) state.movies = movies;
       else {
@@ -65,9 +69,17 @@ export default new Vuex.Store({
       );
       state.selectedFacets.splice(index, 1);
     },
-    clearFacets(state) {
+    clearSelectedFacets(state) {
       state.selectedFacets.forEach((facet) => (facet.selected = false));
       state.selectedFacets = [];
+    },
+    clearFacets(state) {
+      state.facetGenres = [];
+      state.facetTypes = [];
+      state.facetDecades = [];
+    },
+    clearResults(state) {
+      state.movies = [];
     },
     setSearchText(state, searchText: string) {
       state.searchText = searchText;
@@ -77,9 +89,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    clearFacets({ commit }) {
-      commit("clearFacets");
-    },
     setAxiosCancel({ commit }, axiosCancel: CancelTokenSource | undefined) {
       commit("setAxiosCancel", axiosCancel);
     },
@@ -104,7 +113,7 @@ export default new Vuex.Store({
       commit("setFacetGenres", facets);
     },
 
-    async setFacetTypes({ state, dispatch, commit }, types) {
+    async setFacetTypes({ dispatch, commit }, types) {
       const typeFacets = await dispatch("createFacetsArray", {
         facetItem: types,
         facetType: "type",
@@ -142,7 +151,6 @@ export default new Vuex.Store({
       if (state.searchText) {
         state.axiosCancel = axios.CancelToken.source();
         const completeQuery = state.searchText + getters.getFacetsRouteParams;
-        console.log(completeQuery);
         axios
           .get("http://localhost:8080/search?query=" + completeQuery, {
             cancelToken: state.axiosCancel.token,
@@ -172,22 +180,26 @@ export default new Vuex.Store({
 
       return facetArray;
     },
+    async setSelectedPoster({ dispatch, commit }, movieId) {
+      const poster = await dispatch("fetchPoster", movieId);
+
+      commit("setPoster", poster);
+    },
+
     async fetchPoster(context, movieId) {
       let poster: string;
       try {
-        poster = await axios
-          .get("http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5")
-          .then((response) => {
-            return response.data.Poster;
-          });
-        // poster = response.data.Poster;
-      } catch (e) {
-        console.log(
-          "There has been an error and the poster could not be fetched"
+        const response = await axios.get(
+          "http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5"
         );
-        poster = require("@/assets/stand-by.jpg");
+        poster = response.data.Poster;
+      } catch (e) {
+        //poster = require("@/assets/404PosterNotFound.jpg");
       }
-      context.commit("setPoster", poster);
+      if (!poster || poster == "N/A") {
+        poster = require("@/assets/404PosterNotFound.jpg");
+      }
+      return poster;
     },
 
     fetchSelectedMovie(
