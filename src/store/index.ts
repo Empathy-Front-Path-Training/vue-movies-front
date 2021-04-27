@@ -189,12 +189,13 @@ export default new Vuex.Store({
     async fetchPoster(context, movieId) {
       let poster: string;
       try {
-        const response = await axios.get(
-          "http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5"
-        );
-        poster = response.data.Poster;
+        poster = await axios
+          .get("http://www.omdbapi.com/?i=" + movieId + "&apikey=a5f8e3c5")
+          .then((response) => {
+            return response.data.Poster;
+          });
       } catch (e) {
-        //poster = require("@/assets/404PosterNotFound.jpg");
+        poster = require("@/assets/404PosterNotFound.jpg");
       }
       if (!poster || poster == "N/A") {
         poster = require("@/assets/404PosterNotFound.jpg");
