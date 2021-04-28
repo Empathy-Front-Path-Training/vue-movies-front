@@ -19,12 +19,13 @@ export default new Vuex.Store({
     searchText: "" as string,
     axiosCancel: {} as CancelTokenSource | undefined,
     resultsLoaded: false as boolean,
+    suggestions: [] as string[],
   },
   getters: {
-    getSelectedMovie: (state) => {
+    selectedMovie: (state) => {
       return [state.selectedMovie, state.selectedMoviePoster];
     },
-    getFacetsRouteParams: (state) => {
+    facetsRouteParams: (state) => {
       return state.selectedFacets.reduce(
         (route: string, facetParam: FacetInterface) => {
           route += "&filter=" + facetParam.type + ":" + facetParam.name;
@@ -32,6 +33,9 @@ export default new Vuex.Store({
         },
         ""
       );
+    },
+    searchText: (state) => {
+      return state.searchText;
     },
   },
   mutations: {
@@ -87,6 +91,9 @@ export default new Vuex.Store({
     setAxiosCancel(state, axiosCancel: CancelTokenSource | undefined) {
       state.axiosCancel = axiosCancel;
     },
+    setSuggestions(state, suggestions: string[]) {
+      state.suggestions = suggestions;
+    },
   },
   actions: {
     setAxiosCancel({ commit }, axiosCancel: CancelTokenSource | undefined) {
@@ -133,24 +140,34 @@ export default new Vuex.Store({
       commit("setFacetDecades", facets);
     },
 
+    setSuggestions({ commit }, suggestions) {
+      const suggestionArray: string[] = [];
+      if (suggestions) {
+        suggestions.title_term_suggestion[0].options.forEach((option) =>
+          suggestionArray.push(option.text)
+        );
+      }
+      commit("setSuggestions", suggestionArray);
+    },
+
     setFacetArray({ state }, retrievedFacets) {
-      const array: FacetInterface[] = [];
+      const computedFacetArray: FacetInterface[] = [];
       retrievedFacets.forEach((retrievedFacet: FacetInterface) => {
         const usedFacet = state.selectedFacets.find(
           (oldFacet: FacetInterface) =>
             oldFacet.name == retrievedFacet.name && oldFacet.selected
         );
 
-        if (usedFacet) array.push(usedFacet);
-        else array.push(retrievedFacet);
+        if (usedFacet) computedFacetArray.push(usedFacet);
+        else computedFacetArray.push(retrievedFacet);
       });
-      return array;
+      return computedFacetArray;
     },
 
     searchMovies({ getters, dispatch, state }) {
       if (state.searchText) {
         state.axiosCancel = axios.CancelToken.source();
-        const completeQuery = state.searchText + getters.getFacetsRouteParams;
+        const completeQuery = state.searchText + getters.facetsRouteParams;
         axios
           .get("http://localhost:8080/search?query=" + completeQuery, {
             cancelToken: state.axiosCancel.token,
@@ -160,6 +177,7 @@ export default new Vuex.Store({
             dispatch("setFacetGenres", response.data.aggregations[0].genres);
             dispatch("setFacetTypes", response.data.aggregations[1].types);
             dispatch("setFacetDecades", response.data.aggregations[2].decades);
+            dispatch("setSuggestions", response.data.suggestions);
           });
       } else {
         dispatch("unselectMovie");
