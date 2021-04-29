@@ -3,6 +3,7 @@
   grid-template-areas:
     "title title"
     "search search"
+    "suggestions suggestions"
     "facets results";
   grid-template-columns: 25% 75%;
 
@@ -20,5 +21,8 @@
 
   #movie-results-component {
     grid-area: results;
+  }
+  #suggestion-component {
+    grid-area: suggestions;
   }
 }

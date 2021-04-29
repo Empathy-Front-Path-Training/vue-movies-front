@@ -20,4 +20,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped></style>
+<style scoped src="./style.scss" lang="scss"></style>

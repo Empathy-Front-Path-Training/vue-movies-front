@@ -1,5 +1,6 @@
 <template>
-  <section v-if="$store.state.suggestions.length">
+  <section v-show="$store.state.suggestions.length">
+    <h3 id="suggestion-title">Did you mean:</h3>
     <ul id="suggestion-list">
       <Suggestion
         v-for="suggestion in $store.state.suggestions"
@@ -19,4 +20,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped></style>
+<style src="./style.scss" lang="scss"></style>

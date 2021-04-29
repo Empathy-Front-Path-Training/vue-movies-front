@@ -143,8 +143,8 @@ export default new Vuex.Store({
     setSuggestions({ commit }, suggestions) {
       const suggestionArray: string[] = [];
       if (suggestions) {
-        suggestions.title_term_suggestion[0].options.forEach((option) =>
-          suggestionArray.push(option.text)
+        suggestions.title_term_suggestion[0].options.forEach(
+          (option: { text: string }) => suggestionArray.push(option.text)
         );
       }
       commit("setSuggestions", suggestionArray);

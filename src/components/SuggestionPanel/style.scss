@@ -1,0 +1,20 @@
+#suggestion-component {
+  margin-left: 1%;
+  padding-left: 26%;
+  margin-right: 26%;
+  justify-self: start;
+  width: 100%;
+}
+#suggestion-list {
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  padding-left: 0;
+  width: 50%;
+}
+
+#suggestion-title {
+  text-align: start;
+}
