@@ -15,11 +15,16 @@
     font-size: 1.2em;
   }
   #clear-search {
+    background: none;
     width: 5%;
     cursor: pointer;
     padding-top: 0.5rem;
     img {
       max-width: 20px;
+    }
+    transition: 0.2s ease-out;
+    &:hover {
+      transform: scale(1.2);
     }
   }
   #clear-search,

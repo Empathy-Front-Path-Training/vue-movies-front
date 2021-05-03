@@ -3,11 +3,15 @@
     <label for="search-box-movie"></label>
     <input
       id="search-box-movie"
-      v-model="searchText"
+      v-model="$store.state.searchText"
       placeholder="Search your movie"
     />
     <transition name="fade">
-      <button v-show="searchText.length" id="clear-search" @click="clearSearch">
+      <button
+        v-show="$store.state.searchText.length"
+        id="clear-search"
+        @click="clearSearch"
+      >
         <img alt="" src="@/assets/cancel.svg" />
       </button>
     </transition>
@@ -18,17 +22,16 @@
 import Vue from "vue";
 import { MovieInterface } from "@/interfaces/movieInterface";
 import _debounce from "lodash.debounce";
+import { mapState } from "vuex";
 
 export default Vue.extend({
   name: "MovieSearch",
-
   data() {
     return {
-      searchText: "" as string,
       movieList: [] as MovieInterface[],
     };
   },
-
+  computed: mapState(["searchText"]),
   /**
    * THIS IS A BIG ÑAPA BECAUSE IT STILL MAKES THE API CALLS (YOU CAN SEE IT IN THE CONSOLE,
    * BUT:
@@ -48,11 +51,9 @@ export default Vue.extend({
   },
   methods: {
     clearSearch() {
-      this.searchText = "";
+      this.$store.commit("setSearchText", "");
     },
     search() {
-      this.$store.dispatch("setSearchText", this.searchText);
-
       let preApiCallWithDebounce = _debounce(() => {
         this.preFetch();
       }, 600);

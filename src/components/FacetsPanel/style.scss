@@ -1,9 +1,38 @@
+#facets-component {
+  margin-left: 1.5em;
+  padding-left: 1em;
+  margin-right: 0.6em;
+  padding-top: 1.5em;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.facet-panel {
+  background: #333333;
+  border-radius: 0.6em;
+  margin-top: 0.5em;
+  border: #283f68;
+  border-right-width: 50em;
+  flex-grow: 1;
+  max-height: 33%;
+  padding: 0.5em 0.5em 3em;
+}
+.facet-list-container {
+  height: 95%;
+  overflow: scroll;
+}
 .facet-list {
-  margin: 4px;
-  padding: 4px;
-  width: auto;
-  height: 20vh;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
 
-  overflow-y: auto;
-  text-align: justify;
+.facet-header {
+  h2 {
+    text-align: start;
+    padding-left: 1em;
+    margin: 0 0 0.5em;
+    height: 9%;
+  }
 }
