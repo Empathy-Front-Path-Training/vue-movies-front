@@ -116,8 +116,10 @@ export default new Vuex.Store({
       });
 
       const facets = await dispatch("setFacetArray", genreFacets);
-
-      commit("setFacetGenres", facets);
+      const nonAdultFacets = facets.filter(
+        (genre: FacetInterface) => genre.name.toLowerCase() != "adult"
+      );
+      commit("setFacetGenres", nonAdultFacets);
     },
 
     async setFacetTypes({ dispatch, commit }, types) {
