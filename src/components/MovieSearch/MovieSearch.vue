@@ -5,6 +5,7 @@
       id="search-box-movie"
       v-model="$store.state.searchText"
       placeholder="Search your movie"
+      autocomplete="off"
     />
     <transition name="fade">
       <button

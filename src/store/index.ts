@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { MovieInterface } from "@/interfaces/movieInterface";
-import axios, { CancelToken, CancelTokenSource } from "axios";
+import axios, { CancelTokenSource } from "axios";
 import { FacetInterface } from "@/interfaces/Facets";
 
 Vue.use(Vuex);
